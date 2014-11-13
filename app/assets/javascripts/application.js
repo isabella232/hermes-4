@@ -12,9 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.ui.sortable
-//= require jquery.ui.draggable
-//= require jquery.ui.effect-highlight
+//= require jquery-ui/sortable
+//= require jquery-ui/draggable
+//= require jquery-ui/effect-highlight
 //= require twitter/bootstrap
 //= require bootstrap
 //= require bootstrap-datetimepicker

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.0'
+gem 'rails', '~> 4.1.7'
 gem 'devise'
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'jquery-rails'
@@ -32,6 +32,6 @@ end
 
 group :production do
   gem 'unicorn'
-  gem 'pg'
+  # gem 'pg'
   gem 'exception_notification', github: 'rails/exception_notification', require: 'exception_notifier'
 end

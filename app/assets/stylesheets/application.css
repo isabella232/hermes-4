@@ -10,8 +10,8 @@
  *
  *= require_self
  *= require bootstrap_and_overrides
- *= require jquery.ui.core
- *= require jquery.ui.theme
+ *= require jquery-ui/core
+ *= require jquery-ui/theme
  *= require bootstrap-datetimepicker
  *= require bootstrap-wysihtml5
  *= require style
