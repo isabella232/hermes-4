@@ -1,0 +1,9 @@
+#sites-list.well{:style => "padding: 8px 0"}
+  %ul.nav.nav-list
+    %li.nav-header Your sites
+    = render Site.by_user(current_user)
+    %li
+      %span
+        = link_to '#new-site-modal', class: 'btn btn-small', :'data-toggle' => 'modal' do
+          %i.icon-plus
+          New site

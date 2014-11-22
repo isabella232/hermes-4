@@ -22,3 +22,6 @@
 //= require toggler
 //= require tip-connector
 //= require data-confirm-modal
+
+
+// TO TEST -> http://jsfiddle.net/xboehvvs/1/ @TODO

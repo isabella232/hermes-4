@@ -1,0 +1,23 @@
+.modal-header
+  %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} &times;
+  %h3 Edit an existing site
+= form_for site, method: :put, remote: true, :html => { :class => 'form-horizontal', :style => 'margin: 0' } do |f|
+  .modal-body
+    .control-group
+      %label.control-label Name
+      .controls
+        = f.text_field :name, { :class => 'input-xlarge' }
+        %span.help-block Enter a name for the site you are adding.
+    .control-group
+      %label.control-label Address
+      .controls
+        = f.text_field :hostname , { :class => 'input-xlarge' }
+        %span.help-block Enter the URL for the site you are adding (example: http://www.railsrumble.com).
+    .control-group
+      .controls
+        %span.help-block
+          Hint: don't forget to add the
+          %code hermes.js
+          script to your site!
+  .modal-footer
+    = f.submit 'Update site', class: 'btn btn-primary'
