@@ -1,6 +1,6 @@
 %h3
   = "Messages for #{@site.name}"
-  = link_to new_site_tip_path(@site), class: 'btn btn-small', style: 'float: right' do
+  = link_to new_site_tip_path(@site), class: 'btn btn-default btn-sm pull-right' do
     %i.icon-plus
     New message
 - if @tips.any?
