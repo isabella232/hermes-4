@@ -15,6 +15,7 @@ gem 'twitter-bootstrap-rails'
 gem 'bootstrap-datetimepicker-rails'
 gem 'sanitize-rails'
 gem 'bootstrap-wysihtml5-rails'
+gem 'haml-rails'
 gem 'data-confirm-modal', github: 'ifad/data-confirm-modal'
 
 group :doc do
