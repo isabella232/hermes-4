@@ -86,6 +86,8 @@ GEM
       warden (~> 1.2.3)
     erubis (2.7.0)
     execjs (2.2.2)
+    font-awesome-rails (4.2.0.0)
+      railties (>= 3.2, < 5.0)
     haml (4.0.5)
       tilt
     haml-rails (0.5.3)
@@ -222,6 +224,7 @@ DEPENDENCIES
   data-confirm-modal!
   devise
   exception_notification!
+  font-awesome-rails
   haml-rails
   jbuilder (~> 1.2)
   jquery-rails
