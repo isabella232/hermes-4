@@ -7,39 +7,59 @@
 // calculated (roughly) and it is passed back onto the window.opener to be
 // then stored in Hermes' DB.
 //
+// $(function () {
+//   $('[data-tip-connect-path]').on('change', function () {
+//     var input  = $(this);
+//     var target = $(input.data('tip-connect-path'));
+
+//     target.attr('href', [
+//       target.data('hostname'),
+//       input.val(),
+//       '', target.data('token'),
+//     ].join(''));
+//   });
+
+//   $('#tip-connector').on('click', function () {
+//     var connector = $(this);
+//     var output    = $(connector.data('output'));
+
+//     var listener = function(event) {
+//       output.find('input').val(event.data);
+//       output.show().effect('highlight', 2000);
+//     }
+
+//     window.removeEventListener('message', listener);
+//     window.addEventListener('message', listener);
+//   });
+
+//   $('#tip-disconnect').on('change', function () {
+//     var disconnect = $(this);
+//     var output     = $(disconnect.data('output'));
+
+//     if (!disconnect.is(':checked'))
+//       return;
+
+//     output.find('input').val('')
+//     output.hide();
+//   });
+// });
+
 $(function () {
-  $('[data-tip-connect-path]').on('change', function () {
-    var input  = $(this);
-    var target = $(input.data('tip-connect-path'));
-
-    target.attr('href', [
-      target.data('hostname'),
-      input.val(),
-      '', target.data('token'),
-    ].join(''));
-  });
-
-  $('#tip-connector').on('click', function () {
+  $('#tip-connector').on('click', function (evt) {
+    evt.preventDefault();
     var connector = $(this);
     var output    = $(connector.data('output'));
 
-    var listener = function(event) {
+    var popup = window.open(connector.attr('href'));
+
+    function receiveMessage(event) {
       output.find('input').val(event.data);
-      output.show().effect('highlight', 2000);
+      output.removeClass('hide');
     }
 
-    window.removeEventListener('message', listener);
-    window.addEventListener('message', listener);
+    window.removeEventListener('message', receiveMessage);
+    window.addEventListener("message", receiveMessage, false);
+
   });
 
-  $('#tip-disconnect').on('change', function () {
-    var disconnect = $(this);
-    var output     = $(disconnect.data('output'));
-
-    if (!disconnect.is(':checked'))
-      return;
-
-    output.find('input').val('')
-    output.hide();
-  });
 });

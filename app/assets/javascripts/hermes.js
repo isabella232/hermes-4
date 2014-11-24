@@ -196,7 +196,6 @@
         event.stopImmediatePropagation();
 
         var path = getPath(selected);
-
         window.opener.postMessage(path, opener_protocol + ':' + __hermes_host__);
         window.close();
       };
