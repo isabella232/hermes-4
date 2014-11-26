@@ -34,6 +34,6 @@ end
 
 group :production do
   gem 'unicorn'
-  # gem 'pg'
+  gem 'pg'
   gem 'exception_notification', github: 'rails/exception_notification', require: 'exception_notifier'
 end
