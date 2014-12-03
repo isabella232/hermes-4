@@ -11,7 +11,7 @@ gem 'jbuilder', '~> 1.2'
 gem 'uglifier', '>= 1.3.0'
 gem 'therubyracer', platforms: :ruby
 gem 'less-rails'
-gem 'twitter-bootstrap-rails'
+gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
 gem 'bootstrap-datetimepicker-rails'
 gem 'sanitize-rails'
 gem 'bootstrap-wysihtml5-rails'
