@@ -3,7 +3,12 @@ module PathScoping
 
   included do
     def self.within(path)
-      where("? LIKE path || '%'", path.presence || '/')
+      case ActiveRecord::Base.connection.class.to_s
+      when /PostgreSQLAdapter/
+        where("path_re ~* ?", path.presence || '/')
+      when /Mysql2Adapter/
+        where("path_re REGEXP ?", path.presence || '/')
+      end
     end
   end
 end
