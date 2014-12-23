@@ -33,7 +33,6 @@ group :development do
   gem 'pry'
   gem 'pry-nav'
   gem 'pry-rails'
-  gem 'capistrano', '~> 2.0'
   gem RUBY_VERSION.to_f < 2.0 ? 'debugger' : 'byebug'
 end
 

@@ -57,9 +57,6 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
-    airbrake (4.1.0)
-      builder
-      multi_json
     animate-rails (1.0.7)
       rails
     arel (5.0.1.20140414130214)
@@ -76,12 +73,6 @@ GEM
       columnize (~> 0.8)
       debugger-linecache (~> 1.2)
       slop (~> 3.6)
-    capistrano (2.15.5)
-      highline
-      net-scp (>= 1.0.0)
-      net-sftp (>= 2.0.0)
-      net-ssh (>= 2.0.14)
-      net-ssh-gateway (>= 1.1.0)
     coderay (1.1.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
@@ -112,7 +103,6 @@ GEM
       activesupport (>= 4.0.1)
       haml (>= 3.1, < 5.0)
       railties (>= 4.0.1)
-    highline (1.6.21)
     hike (1.2.3)
     i18n (0.6.11)
     jbuilder (1.5.3)
@@ -143,13 +133,6 @@ GEM
       railties (>= 3.1)
     multi_json (1.10.1)
     mysql2 (0.3.17)
-    net-scp (1.2.1)
-      net-ssh (>= 2.6.5)
-    net-sftp (2.1.2)
-      net-ssh (>= 2.6.5)
-    net-ssh (2.9.1)
-    net-ssh-gateway (1.2.0)
-      net-ssh (>= 2.6.5)
     nokogiri (1.6.4.1)
       mini_portile (~> 0.6.0)
     nokogumbo (1.1.12)
@@ -235,14 +218,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  airbrake
   animate-rails
   autosize-rails
   bcrypt-ruby (~> 3.0.0)
   bootstrap-wysihtml5-rails
   bootstrap3-datetimepicker-rails (~> 3.1.3)
   byebug
-  capistrano (~> 2.0)
   data-confirm-modal!
   devise
   exception_notification!
@@ -263,7 +244,7 @@ DEPENDENCIES
   ranked-model!
   sanitize-rails
   sdoc
-  therubyracer (~> 0.11.4)
+  therubyracer
   turbolinks
   twitter-bootstrap-rails!
   uglifier (>= 1.3.0)
