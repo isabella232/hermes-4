@@ -61,7 +61,7 @@ __hermes_embed.init_tutorial = function($) {
       }
 
       if ( (tip.ext_site !== '' && ns.site_ref.indexOf(tip.ext_site) > -1)
-          || (this.options.path === tip.path && tip.ext_site === '')
+          || (w.location.pathname === tip.path && tip.ext_site === '')
           || (tip.ext_site === '' && (tip.path === '' || tip.path === '/'))
          ) {
         ns.display(tip);
