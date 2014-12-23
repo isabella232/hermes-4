@@ -13,12 +13,6 @@ GIT
       activerecord (>= 3.1.12)
 
 GIT
-  remote: git://github.com/rails/exception_notification.git
-  revision: 192a49a02d63d28b23ed41cebadfedd490929cf1
-  specs:
-    exception_notification (1.0.0)
-
-GIT
   remote: git://github.com/seyhunak/twitter-bootstrap-rails.git
   revision: 67f160dd2ff5cc7cd843a17866c3b6bc8e7f2794
   specs:
@@ -226,7 +220,6 @@ DEPENDENCIES
   byebug
   data-confirm-modal!
   devise
-  exception_notification!
   font-awesome-rails
   haml-rails
   jbuilder (~> 1.2)
