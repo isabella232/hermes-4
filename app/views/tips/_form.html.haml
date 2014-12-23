@@ -11,9 +11,21 @@
       .input-group-addon.input-group-addon-text.input-addon-abs-path{class: f.object.site_host_ref.present? ? '' : 'hide'}= site_path_select(f)
     = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent', value: @tutorial ? @tutorial.path : f.object.path
   %p.form-control-help.text-right
-    insert the path where the tip will be displayed (<b>/</b> default).
-    - unless @tutorial
-      It can also be a regexp.
+    - if @tutorial
+      %b Warning: 
+      Keep the <b>same static path</b> as the tutorial to display this tip <b>on the same page</b> where the tutorial is located.
+      Change it to redirect to another page. If the tutorial has a regexp path associated, <b>do not try</b> to insert a regexp
+      in this path. Just leave it static.
+    - else
+      Insert the static path where the tip will be displayed (<b>/</b> default).
+  - unless @tutorial
+    .form-group
+      .input-group
+        .input-group-addon.input-group-addon-text.input-addon-current-path{class: f.object.site_host_ref.present? ? 'hide' : ''}= current_path
+        = f.text_field :path_re, class: 'form-control input-transparent'
+      %p.form-control-help.text-right
+        if you want you can specify a regexp to match the path. 
+        %b Remember to also specify a static path for authoring and preview
 - if @tutorial
   .checkbox
     = label_tag :absolute_url do
