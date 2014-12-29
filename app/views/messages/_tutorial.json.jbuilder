@@ -8,6 +8,7 @@ json.progress_bar tutorial.progress_bar
 json.overlay tutorial.overlay
 json.site_ref tutorial.site.hostname
 json.path tutorial.path
+json.path_re tutorial.path_re
 json.tips(tutorial.tips.sort_by_row_order) do |tip|
   json.partial! 'tip', :tip => tip
 end

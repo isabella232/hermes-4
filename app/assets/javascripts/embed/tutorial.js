@@ -113,7 +113,8 @@ __hermes_embed.init_tutorial = function($) {
             totNew = ~~totNewElement.text().trim()
         ;
         listElement.find('.label-success').remove();
-        listElement.find(' > span').append($('<span><b>(already viewed)</b></span>'));
+        listElement.find('.hermes-already-viewed-label').remove();
+        listElement.find(' > span').append($('<span class="hermes-already-viewed-label"><b>(' + ns.labels.alreadyViewed + ')</b></span>'));
         if (totNew > 1) {
           totNewElement.text(totNew-1);
         } else {

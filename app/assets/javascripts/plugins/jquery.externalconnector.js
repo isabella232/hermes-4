@@ -144,6 +144,7 @@
       .on('blur', '.ext-path', this._changePath.bind(this))
       .on('change', '.input-addon-abs-path select', this._changeAbsolutePath.bind(this))
       .on('change', '#absolute_url', this._toggleAbsolutePath.bind(this))
+      .on('submit', 'form', this._changePath.bind(this))
     ;
   }
 

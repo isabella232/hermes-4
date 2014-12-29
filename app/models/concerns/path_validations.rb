@@ -15,9 +15,10 @@ module PathValidations
       end
     end
 
-    # if path_regexp is not modified or empty and path is filled
+    # if path_regexp is not modified or empty and path is filled,
+    # replace path_re with path sorrounded by ^ and $
     def check_path_re
-      check = (self.path_re == '^/$' || self.path_re == '') && self.path != "/" && self.path != ""
-      self.path_re = "^#{self.path.gsub(/(\^+)|(\$+)/, '')}$" if check
+      check = (self.path_re == '^/$' || self.path_re.blank?) && self.path.present?
+      self.path_re = ['^', Regexp.escape(self.path), '$'].join() if check
     end
 end

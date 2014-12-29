@@ -11,7 +11,9 @@
   %p.form-control-help.text-right
     insert the static path where the tutorial will be displayed (<b>/</b> default). It can also be a regexp.
 .form-group
-  = f.text_field :path_re, class: 'form-control input-transparent'
+  .input-group
+    .input-group-addon.input-group-addon-text= @site.hostname.gsub(/\/$/, '')
+    = f.text_field :path_re, class: 'form-control input-transparent'
   %p.form-control-help.text-right
     If you want you can specify a regexp to match the path. 
     %b Heads up:
