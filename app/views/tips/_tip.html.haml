@@ -2,7 +2,7 @@
   %span.entity-number
   %h4.entity-title= link_to tip.title, edit_tip_link(tip)
   %p.small.courier
-    = (tip.site_host_ref.present? ? tip.site_host_ref : @site.hostname) + tip.path
+    = (tip.site_host_ref.present? ? tip.site_host_ref : @site.url) + tip.path
   .list-group-item-actions
     = link_to edit_tip_link(tip), class: 'btn btn-primary btn-xs' do
       %i.fa.fa-pencil

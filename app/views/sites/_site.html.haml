@@ -2,8 +2,7 @@
   %h4.list-group-item-heading
     = link_to site_path(site), id: dom_id(site) do
       = site.name
-  %p.small.courier
-    = site.hostname
+  %p.small.courier= site.url
   %p.list-group-item-text
     %span.small
       = link_to site_tips_path(site) do

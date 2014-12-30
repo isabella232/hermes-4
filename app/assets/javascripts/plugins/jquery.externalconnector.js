@@ -56,7 +56,7 @@
   ExternalConnector.prototype._changeAbsolutePath = function(evt) {
     var val = $(evt.target).find(':selected').val().trim();
     if (val) {
-      this.components.connectLink.attr('data-hostname', 'http://' + val);
+      this.components.connectLink.attr('data-hostname', val);
       this._changePath();
     } else {
       this.components.connectLink.attr('data-hostname', this.defaultHost);

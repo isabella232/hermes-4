@@ -6,13 +6,13 @@
 .form-group
   = render 'path_error', errors: f.object.errors
   .input-group
-    .input-group-addon.input-group-addon-text= @site.hostname.gsub(/\/$/, '')
+    .input-group-addon.input-group-addon-text= @site.url
     = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent'
   %p.form-control-help.text-right
     insert the static path where the tutorial will be displayed (<b>/</b> default). It can also be a regexp.
 .form-group
   .input-group
-    .input-group-addon.input-group-addon-text= @site.hostname.gsub(/\/$/, '')
+    .input-group-addon.input-group-addon-text= @site.url
     = f.text_field :path_re, class: 'form-control input-transparent'
   %p.form-control-help.text-right
     If you want you can specify a regexp to match the path. 

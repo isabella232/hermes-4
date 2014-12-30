@@ -1,7 +1,7 @@
 .col-md-8.col-md-offset-2.animated.fadeInUp
   %h1
     %b= @site.name
-  %h2= @site.hostname
+  %h2= @site.url
   %p
     = link_to edit_site_path(@site), remote: true, class: 'btn btn-primary btn-sm' do
       edit

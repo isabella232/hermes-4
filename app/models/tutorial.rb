@@ -19,8 +19,8 @@ class Tutorial < ActiveRecord::Base
 
   protected
 
-    def normalize_path
-      self.path = self.path.gsub(/(\s+)/, '')
-    end
+  def normalize_path
+    self.path = self.path.gsub(/(\s+)/, '')
+  end
 
 end

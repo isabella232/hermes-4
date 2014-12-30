@@ -7,9 +7,9 @@ else
   json.selector tip.selector
 end
 
-#
-json.id      tip.id
-json.title   tip.title
-json.content tip.content
-json.path    tip.path
+# other tip properties
+json.id       tip.id
+json.title    tip.title
+json.content  tip.content
+json.path     tip.path
 json.ext_site tip.site_host_ref
