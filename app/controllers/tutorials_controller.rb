@@ -25,7 +25,7 @@ class TutorialsController < ApplicationController
     @tutorial = @site.tutorials.new(tutorial_params)
 
     if @tutorial.save
-      redirect_to site_tutorials_path(@site)
+      redirect_to site_tutorial_path(@site, @tutorial)
     else
       flash.now[:error] = 'There was an error saving your tutorial.'
       render :new
@@ -44,7 +44,7 @@ class TutorialsController < ApplicationController
           tip.save!
         end
       end
-      redirect_to site_tutorials_path(@site), :notice => 'tutorial saved'
+      redirect_to site_tutorial_path(@site, @tutorial), :notice => 'tutorial saved'
     else
       render :edit
     end

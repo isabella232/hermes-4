@@ -389,7 +389,7 @@ __hermes_embed.init_displayer = function($) {
         li.on('click', '.js--hermes-show-tutorial', function() {
           ns.publish('loadTutorial', [tutorial]);
         });
-        li.find(' > span').append($('<span><b>(already viewed)</b></span>'))
+        li.find(' > span').append($('<span><b>(' + ns.labels.alreadyViewed + ')</b></span>'))
         tutorialsDOM.push(li);
       });
 

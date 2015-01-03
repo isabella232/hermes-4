@@ -6,7 +6,7 @@ json.title        tutorial.title
 json.welcome      tutorial.welcome_message || ''
 json.progress_bar tutorial.progress_bar
 json.overlay      tutorial.overlay
-json.site_ref     tutorial.site.url
+json.site_ref     tutorial.site.hostname
 json.path         tutorial.path
 json.path_re      tutorial.path_re
 # with its own tips

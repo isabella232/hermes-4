@@ -318,7 +318,7 @@
       if (startedTutorial) {
         this.mode = 'started-tutorial';
       } else{
-          this.mode = 'general-messaging';
+        this.mode = 'general-messaging';
       }
     } else {
       this.mode = ns.mode;
