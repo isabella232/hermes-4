@@ -10,14 +10,14 @@ __hermes_embed.init_tutorial = function($) {
         BODY = $(document.body),
         DEFAULTS = {
           retrieveTutorialUrl: '/messages/tutorials/{{tutorial_id}}.js?site_ref=' + ns.site_ref,
-          tipTargetAbsoluteQS: 'hermes_tutorial_id={{id}}&hermes_tip_index={{index}}&hermes_site_ref={{ref}}'
+          tipTargetAbsoluteQS: 'hermes_tutorial_id={{id}}&hermes_tip_index={{index}}&hermes_site_ref={{ref}}&hermes_tutorial_direction={{direction}}'
         }
     ;
 
     var Tutorial = function(options, startedOptions) {
       this.version = '0.1';
       if (startedOptions == null){
-        this.options = $.extend({}, DEFAULTS, this.sanitize(options));
+        this.options = $.extend({}, DEFAULTS, options);
         this.init();
       } else {
         this.options = $.extend({}, DEFAULTS);
@@ -46,67 +46,79 @@ __hermes_embed.init_tutorial = function($) {
       return this.currentTipIndex === 0;
     }
 
-    Tutorial.prototype.checkPathAndDisplay = function(tip, from) {
-      // if tip has been removed during I'm touring it (& I change path)... should be RARE, but who knows...
+    Tutorial.prototype.canDisplayTip = function(tip) {
+      var 
+          // current path (calculate it in this way, coz a site can be defined as http://example.com/path)
+          pathCurrent = (location.host + location.pathname).replace(ns.site_ref, '') || '/',
+          // the regexp defined for the tutorial
+          pathRegexpTutorial = new RegExp(this.options.path_re),
+          // the static path of the tutorial => to match tips
+          pathStaticTutorial = this.options.path,
+          // the host of the tips, because they can be absolute
+          tipHostRef = tip.ext_site || this.options.site_ref,
+          // check whether the tip is from the same current site 
+          tipIsFromSameSite = tipHostRef.indexOf(location.host) > -1,
+          // check whether the tip has same path as the current path (calculated as above)
+          tipHasCurrentPath = tip.path === pathCurrent,
+          // check whether tip has same static path of the tutorial and tutorial regexp path matches the current path
+          tipHasCurrentTutorialPath = tip.path === pathStaticTutorial && pathRegexpTutorial.test(pathCurrent)
+
+      ;
+      // tip to be displayed must be on the same site (obv), must have the same path or 
+      // must have the same tutorial path (that matches the current page's path)
+      return tipIsFromSameSite && (tipHasCurrentPath || tipHasCurrentTutorialPath);
+    }
+
+    Tutorial.prototype.checkPathAndDisplay = function(tip, direction) {
+      // if tip has been removed during I'm touring it (& I change path)... 
+      // should be extremely RARE, but who knows...
       if (!tip) {
         alert(ns.labels.noMoreTips);
         this.end();
         return;
       }
-      var pathCurrent = (location.host + location.pathname).replace(ns.site_ref, '') || '/',
-          pathRegexp = new RegExp(this.options.path_re),
-          pathStatic = this.options.path,
-          tipHostRef = tip.ext_site || this.options.site_ref,
-          sameSite = tipHostRef.indexOf(location.host) > -1
+      var tipHostRef = tip.ext_site || this.options.site_ref,
+          tipIsFromSameSite = tipHostRef.indexOf(location.host) > -1
       ;
-      // Check if tip needs to be displayed. Be careful w/ this. If debug needed
-      // , each IF chunk should be debugged separately.
-      if (
-          // coming from cookies, QueryString
-          (this.startedFromCookies)
-          ||
-          // OR same path of the preceeding - if ANY - and ** same site **
-          (from === 'next' &&
-            this.currentTipIndex > 0 
-            && tip.path === this.tips[this.currentTipIndex - 1].path
-            && sameSite)
-          ||
-          // OR same path of the following - if ANY - and ** same site **
-          (from === 'prev' &&
-            this.currentTipIndex < this.tips.length -1
-            && tip.path === this.tips[this.currentTipIndex + 1].path
-            && sameSite)
-          // OR tip has same static path as tutorial and the current path matches tutorial path_regexp
-          || 
-          (tip.path === pathStatic
-            && pathRegexp.test(pathCurrent)
-            && sameSite)
-          // OR tip is from the same domain
-          ||
-          (tip.ext_site !== '' && tip.ext_site === location.href.split('?')[0])
-        ) {
+      // Check if tip needs to be displayed.
+      if(this.canDisplayTip(tip)){
         // display the tip
+        if (tip.type === 'tip') { // check tip selector
+          var elem = $(tip.selector),
+              direction = ns.currentTutorialDirection || direction;
+          ns.currentTutorialDirection = null;
+          if (elem.length === 0 || !elem.is(':visible')) { // if there's no match w/ selector on the page (RARE CASE)
+            if(this.isEnd()) { // if I'm at the end, just warn the user
+              alert(ns.labels.noMoreTips)
+              this.end();
+            } else { // otherwise, check direction and call the next|prev method
+              direction === 'next' ? this.next() : this.prev();
+            }
+            return; // stop here
+          }
+        }
+        // call the display method on the tip
         ns.display(tip);
         // show progress bar if defined
         this.options.progress_bar && ns.display({type: 'progressBar', tutorial: this});
-        // remove startedFromCookies instance boolean
-        this.startedFromCookies = false;
       } else { // otherwise, change page!
+        // delete cookies
         ns.instances.app.deleteTutorialCookies();
+        // remove beforeunload event
         $(w).off('beforeunload');
+        // remove overlay
         ns.DOM.overlay && ns.DOM.overlay.hide();
-        // if same domain
-        if (sameSite) {
-          alert('same domain! COokies!');
-          ns.instances.app.createTutorialCookies(this.id, this.currentTipIndex);
+        if (tipIsFromSameSite) { // if same domain, create cookies and redirect!
+          ns.instances.app.createTutorialCookies(this.id, this.currentTipIndex, direction || 'next');
           window.location.href = tip.path;
-        } else { // another domain!
-          alert('other domain! No COokies :( Query string instead!');
-          var ext_ref = (tip.ext_site || ('//' + this.options.site_ref)) + tip.path,
+        } else { // otherwise, another domain! So append querystring to the url
+          var ext_ref = (tip.ext_site || this.options.site_ref) + tip.path,
               absQS = this.options.tipTargetAbsoluteQS.replace('{{id}}', this.id)
                                          .replace('{{index}}', this.currentTipIndex)
-                                         .replace('{{ref}}', this.options.site_ref);
+                                         .replace('{{ref}}', this.options.site_ref)
+                                         .replace('{{direction}}', direction || 'next');
           ext_ref = ext_ref + ((ext_ref.indexOf('?') > -1) ? '&' : '?');
+          ext_ref = /^https?:\/\//.test(ext_ref) ? ext_ref : ('//' + ext_ref);
           window.location.href = ext_ref + absQS;
         }
       }
@@ -179,9 +191,8 @@ __hermes_embed.init_tutorial = function($) {
       return this;
     }
 
-    Tutorial.prototype.sanitize = function(data) {
-      var tips = data.tips,
-          len = tips.length,
+    Tutorial.prototype.sanitizeTips = function(tips) {
+      var len = tips.length,
           elem = null,
           currTip
       ;
@@ -189,14 +200,12 @@ __hermes_embed.init_tutorial = function($) {
         currTip = tips[len];
         if(currTip.type === 'tip') {
           elem = $(currTip.selector);
-          ( currTip.ext_site === ''
-            && this.siteRef === ns.site_ref
-            && w.location.pathname === currTip.path
-            && (elem.length === 0 || !elem.is(':visible'))
+          ( 
+            (this.canDisplayTip(currTip)) && (elem.length === 0 || !elem.is(':visible'))
           ) && tips.splice(len, 1);
         }
       };
-      return data;
+      return tips;
     }
 
     Tutorial.prototype.initStarted = function(startedOptions) {
@@ -208,8 +217,7 @@ __hermes_embed.init_tutorial = function($) {
           if(data.length === 0) {
             ns.publish('tutorialdeleted');
           } else {
-            this.siteRef = data[0].site_ref;
-            $.extend(this.options, this.sanitize(data[0]));
+            $.extend(this.options, data[0]);
             this.init(startedOptions.tipIndex);
           }
         }.bind(this)
@@ -219,7 +227,6 @@ __hermes_embed.init_tutorial = function($) {
     Tutorial.prototype.init = function(tipIndex) {
       var startElement = null;
       this.id = this.options.id;
-      this.startedFromCookies = tipIndex ? true : false;
       this.currentTipIndex = tipIndex ? tipIndex-1 : -1;
       this.tips = this.options.tips;
       this.selector = this.options.selector;

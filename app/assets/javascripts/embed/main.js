@@ -63,7 +63,7 @@
   /**
     * initPubSub
     *
-    * @param {$} function, the jQuery object noconflict
+    * @param {$} function, the jQuery object noconflicted
     *
     * @return {this} chainability
     *
@@ -106,25 +106,25 @@
     *
     * @param {tutorialId} Number, the id of the tutorial being saved on cookies
     * @param {tipIndex} Number, the index of the current tip
+    * @param {direction} String, the direction of the tutorial prev|next
     *
     * @return {this} chainability
     *
     **/
 
-  App.prototype.createTutorialCookies = function(tutorialId, tipIndex) {
+  App.prototype.createTutorialCookies = function(tutorialId, tipIndex, direction) {
     ns.cookie.create('hermes-tutorial-started', 'true');
     ns.cookie.create('hermes-tutorialid', tutorialId);
     ns.cookie.create('hermes-tipindex', tipIndex);
+    ns.cookie.create('hermes-tutorialdirection', direction);
     return this;
   }
 
 
 
   /**
-    * createTutorialCookies
-    *
-    * @param {tutorialId} Number, the id of the tutorial being saved on cookies
-    * @param {tipIndex} Number, the index of the current tip
+    * deleteTutorialCookies
+    * remove all the tutorial cookies
     *
     * @return {this} chainability
     *
@@ -134,6 +134,7 @@
     ns.cookie.erase('hermes-tutorial-started');
     ns.cookie.erase('hermes-tutorialid');
     ns.cookie.erase('hermes-tipindex');
+    ns.cookie.erase('hermes-tutorialdirection');
     return this;
   }
 
@@ -251,6 +252,7 @@
                                            // we will enable tutorials manager)
         var tutorialId = ns.utils.getParameterByName('hermes_tutorial_id') || ns.cookie.read('hermes-tutorialid'),
             tipIndex = ns.utils.getParameterByName('hermes_tip_index') || ns.cookie.read('hermes-tipindex');
+        ns.currentTutorialDirection = ns.utils.getParameterByName('hermes_tutorial_direction') || ns.cookie.read('hermes-tutorialdirection');
         ns.tutorials['tutorial' + tutorialId] = new ns.Tutorial({}, {
           tutorialId : tutorialId,
           tipIndex   : tipIndex
