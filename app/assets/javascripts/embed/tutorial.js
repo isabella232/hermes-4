@@ -191,23 +191,6 @@ __hermes_embed.init_tutorial = function($) {
       return this;
     }
 
-    Tutorial.prototype.sanitizeTips = function(tips) {
-      var len = tips.length,
-          elem = null,
-          currTip
-      ;
-      while (len--) {
-        currTip = tips[len];
-        if(currTip.type === 'tip') {
-          elem = $(currTip.selector);
-          ( 
-            (this.canDisplayTip(currTip)) && (elem.length === 0 || !elem.is(':visible'))
-          ) && tips.splice(len, 1);
-        }
-      };
-      return tips;
-    }
-
     Tutorial.prototype.initStarted = function(startedOptions) {
       var url = this.options.retrieveTutorialUrl.replace('{{tutorial_id}}', startedOptions.tutorialId);
       $.ajax(ns.host + url, {

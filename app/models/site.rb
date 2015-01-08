@@ -30,6 +30,8 @@ class Site < ActiveRecord::Base
 
   protected
 
+  # method used to remove http|s from the hostname (we have a separate protocol field now)
+  # + it removes whitespaces + extra /
   def normalize_hostname
     self.hostname = self.hostname.gsub(/(^https?:\/\/)|(\s+)|(\/+$)/, '')
   end
