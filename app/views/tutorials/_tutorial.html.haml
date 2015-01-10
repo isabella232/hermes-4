@@ -1,7 +1,7 @@
 .entity.animated.fadeIn{"data-tutorial-id" => tutorial.id, id: dom_id(tutorial)}
   %h4.entity-title= link_to tutorial.title, site_tutorial_path(@site, tutorial)
   %p.small.courier.entity-path
-    = (@site.hostname + tutorial.path)
+    = (@site.url + tutorial.path)
   .list-group-item-actions
     = link_to edit_site_tutorial_path(@site, tutorial), class: 'btn btn-primary btn-xs' do
       %i.fa.fa-pencil

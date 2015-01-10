@@ -56,7 +56,7 @@
   ExternalConnector.prototype._changeAbsolutePath = function(evt) {
     var val = $(evt.target).find(':selected').val().trim();
     if (val) {
-      this.components.connectLink.attr('data-hostname', 'http://' + val);
+      this.components.connectLink.attr('data-hostname', val);
       this._changePath();
     } else {
       this.components.connectLink.attr('data-hostname', this.defaultHost);
@@ -144,6 +144,7 @@
       .on('blur', '.ext-path', this._changePath.bind(this))
       .on('change', '.input-addon-abs-path select', this._changeAbsolutePath.bind(this))
       .on('change', '#absolute_url', this._toggleAbsolutePath.bind(this))
+      .on('submit', 'form', this._changePath.bind(this))
     ;
   }
 

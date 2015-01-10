@@ -1,3 +1,17 @@
+/*
+  ---
+
+  __hermes_embed.Tutorial
+
+  The Tutorial class.
+
+  (c) IFAD 2015
+  @author: Stefano Ceschi Berrini <stefano.ceschib@gmail.com>
+  @license: see LICENSE.md
+
+  ---
+*/
+
 __hermes_embed.init_tutorial = function($) {
 
   !(function(w, ns){
@@ -10,14 +24,14 @@ __hermes_embed.init_tutorial = function($) {
         BODY = $(document.body),
         DEFAULTS = {
           retrieveTutorialUrl: '/messages/tutorials/{{tutorial_id}}.js?site_ref=' + ns.site_ref,
-          tipTargetAbsoluteQS: 'hermes_tutorial_id={{id}}&hermes_tip_index={{index}}&hermes_site_ref={{ref}}'
+          tipTargetAbsoluteQS: 'hermes_tutorial_id={{id}}&hermes_tip_index={{index}}&hermes_site_ref={{ref}}&hermes_tutorial_direction={{direction}}'
         }
     ;
 
     var Tutorial = function(options, startedOptions) {
       this.version = '0.1';
       if (startedOptions == null){
-        this.options = $.extend({}, DEFAULTS, this.sanitize(options));
+        this.options = $.extend({}, DEFAULTS, options);
         this.init();
       } else {
         this.options = $.extend({}, DEFAULTS);
@@ -46,51 +60,91 @@ __hermes_embed.init_tutorial = function($) {
       return this.currentTipIndex === 0;
     }
 
-    Tutorial.prototype.checkPathAndDisplay = function(tip) {
+    Tutorial.prototype.canDisplayTip = function(tip) {
+      var 
+          // current path (calculate it in this way, coz a site can be defined as http://example.com/path)
+          pathCurrent = (location.host + location.pathname).replace(ns.site_ref, '') || '/',
+          // the regexp defined for the tutorial
+          pathRegexpTutorial = new RegExp(this.options.path_re),
+          // the static path of the tutorial => to match tips
+          pathStaticTutorial = this.options.path,
+          // the host of the tips, because they can be absolute
+          tipHostRef = tip.ext_site || this.options.site_ref,
+          // check whether the tip is from the same current site 
+          tipIsFromSameSite = tipHostRef.indexOf(location.host) > -1,
+          // check whether the tip has same path as the current path (calculated as above)
+          tipHasCurrentPath = tip.path === pathCurrent,
+          // check whether tip has same static path of the tutorial and tutorial regexp path matches the current path
+          tipHasCurrentTutorialPath = tip.path === pathStaticTutorial && pathRegexpTutorial.test(pathCurrent)
+
+      ;
+      // tip to be displayed must be on the same site (obv), must have the same path or 
+      // must have the same tutorial path (that matches the current page's path)
+      return tipIsFromSameSite && (tipHasCurrentPath || tipHasCurrentTutorialPath);
+    }
+
+    Tutorial.prototype.checkPathAndDisplay = function(tip, direction) {
+      // if tip has been removed during I'm touring it (& I change path)... 
+      // should be extremely RARE, but who knows...
       if (!tip) {
         alert(ns.labels.noMoreTips);
         this.end();
         return;
       }
-      var cookieSiteRef = ns.utils.getParameterByName('hermes_site_ref');
-      if (tip.ext_site === ''
-          && cookieSiteRef !== ''
-          && cookieSiteRef !== ns.site_ref
-          && ns.instances.app.mode === 'started-tutorial') {
-        tip.ext_site = cookieSiteRef;
-      }
-
-      if ( (tip.ext_site !== '' && ns.site_ref.indexOf(tip.ext_site) > -1)
-          || (w.location.pathname === tip.path && tip.ext_site === '')
-          || (tip.ext_site === '' && (tip.path === '' || tip.path === '/'))
-         ) {
+      var tipHostRef = tip.ext_site || this.options.site_ref,
+          tipIsFromSameSite = tipHostRef.indexOf(location.host) > -1
+      ;
+      // Check if tip needs to be displayed.
+      if(this.canDisplayTip(tip)){
+        // display the tip
+        if (tip.type === 'tip') { // check tip selector
+          var elem = $(tip.selector),
+              direction = ns.currentTutorialDirection || direction;
+          ns.currentTutorialDirection = null;
+          if (elem.length === 0 || !elem.is(':visible')) { // if there's no match w/ selector on the page (RARE CASE)
+            if(this.isEnd()) { // if I'm at the end, just warn the user
+              alert(ns.labels.noMoreTips)
+              this.end();
+            } else { // otherwise, check direction and call the next|prev method
+              direction === 'next' ? this.next() : this.prev();
+            }
+            return; // stop here
+          }
+        }
+        // call the display method on the tip
         ns.display(tip);
+        // show progress bar if defined
         this.options.progress_bar && ns.display({type: 'progressBar', tutorial: this});
-      } else {
+      } else { // otherwise, change page!
+        // delete cookies
         ns.instances.app.deleteTutorialCookies();
+        // remove beforeunload event
         $(w).off('beforeunload');
+        // remove overlay
         ns.DOM.overlay && ns.DOM.overlay.hide();
-        if(tip.ext_site === '') {
-          ns.instances.app.createTutorialCookies(this.id, this.currentTipIndex);
+        if (tipIsFromSameSite) { // if same domain, create cookies and redirect!
+          ns.instances.app.createTutorialCookies(this.id, this.currentTipIndex, direction || 'next');
           window.location.href = tip.path;
-        } else {
-          var ext_ref = tip.ext_site + tip.path,
+        } else { // otherwise, another domain! So append querystring to the url
+          var ext_ref = (tip.ext_site || this.options.site_ref) + tip.path,
               absQS = this.options.tipTargetAbsoluteQS.replace('{{id}}', this.id)
                                          .replace('{{index}}', this.currentTipIndex)
-                                         .replace('{{ref}}', this.options.site_ref);
+                                         .replace('{{ref}}', this.options.site_ref)
+                                         .replace('{{direction}}', direction || 'next');
           ext_ref = ext_ref + ((ext_ref.indexOf('?') > -1) ? '&' : '?');
-          window.location.href = '//' + ext_ref + absQS;
+          ext_ref = /^https?:\/\//.test(ext_ref) ? ext_ref : ('//' + ext_ref);
+          window.location.href = ext_ref + absQS;
         }
       }
     }
 
     Tutorial.prototype.next = function() {
-      this.checkPathAndDisplay(this.tips[++this.currentTipIndex])
+      this.checkPathAndDisplay(this.tips[++this.currentTipIndex], 'next')
       return this;
     }
 
     Tutorial.prototype.prev = function() {
-      this.checkPathAndDisplay(this.tips[--this.currentTipIndex]);
+      this.checkPathAndDisplay(this.tips[--this.currentTipIndex], 'prev');
       return this;
     }
 
@@ -111,7 +165,8 @@ __hermes_embed.init_tutorial = function($) {
             totNew = ~~totNewElement.text().trim()
         ;
         listElement.find('.label-success').remove();
-        listElement.find(' > span').append($('<span><b>(already viewed)</b></span>'));
+        listElement.find('.hermes-already-viewed-label').remove();
+        listElement.find(' > span').append($('<span class="hermes-already-viewed-label"><b>(' + ns.labels.alreadyViewed + ')</b></span>'));
         if (totNew > 1) {
           totNewElement.text(totNew-1);
         } else {
@@ -150,26 +205,6 @@ __hermes_embed.init_tutorial = function($) {
       return this;
     }
 
-    Tutorial.prototype.sanitize = function(data) {
-      var tips = data.tips,
-          len = tips.length,
-          elem = null,
-          currTip
-      ;
-      while (len--) {
-        currTip = tips[len];
-        if(currTip.type === 'tip') {
-          elem = $(currTip.selector);
-          ( currTip.ext_site === ''
-            && this.siteRef === ns.site_ref
-            && w.location.pathname === currTip.path
-            && (elem.length === 0 || !elem.is(':visible'))
-          ) && tips.splice(len, 1);
-        }
-      };
-      return data;
-    }
-
     Tutorial.prototype.initStarted = function(startedOptions) {
       var url = this.options.retrieveTutorialUrl.replace('{{tutorial_id}}', startedOptions.tutorialId);
       $.ajax(ns.host + url, {
@@ -179,8 +214,7 @@ __hermes_embed.init_tutorial = function($) {
           if(data.length === 0) {
             ns.publish('tutorialdeleted');
           } else {
-            this.siteRef = data[0].site_ref;
-            $.extend(this.options, this.sanitize(data[0]));
+            $.extend(this.options, data[0]);
             this.init(startedOptions.tipIndex);
           }
         }.bind(this)

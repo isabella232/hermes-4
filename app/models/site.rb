@@ -9,7 +9,7 @@ class Site < ActiveRecord::Base
 
   before_validation :normalize_hostname
 
-  validates :user_id, :name, :hostname, presence: true,  uniqueness: { scope: :hostname }
+  validates :user_id, :name, :hostname, :protocol, presence: true,  uniqueness: { scope: :hostname }
 
   def self.by_user(user)
     where(user_id: user.id)
@@ -25,13 +25,15 @@ class Site < ActiveRecord::Base
   end
 
   def url
-    hostname =~ /^http/ ? hostname : "http://#{hostname}"
+    [self.protocol, '://', self.hostname].join()
   end
 
   protected
 
-    def normalize_hostname
-      self.hostname = self.hostname.gsub(/(^https?:\/\/)|(\s+)|(\/+$)/, '')
-    end
+  # method used to remove http|s from the hostname (we have a separate protocol field now)
+  # + it removes whitespaces + extra /
+  def normalize_hostname
+    self.hostname = self.hostname.gsub(/(^https?:\/\/)|(\s+)|(\/+$)/, '')
+  end
 
 end

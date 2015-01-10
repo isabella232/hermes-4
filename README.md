@@ -9,4 +9,7 @@ establishes a channel through which, for each page load (FIXME) a payload
 is requested from the app, that describes the help elements to display in
 that specific page.
 
+## License
+
+Hermes is released under MIT. See LICENSE.md for more information.
 

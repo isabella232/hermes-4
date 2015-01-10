@@ -2,7 +2,7 @@
   %h1
     Tutorial
     %b= @tutorial.title
-  %h2= @site.hostname + @tutorial.path
+  %h2= @site.url + @tutorial.path
   %p
     = link_to 'edit', edit_site_tutorial_path(@site, @tutorial), class: 'btn btn-primary btn-sm'
     = link_to 'delete', site_tutorial_path(@site, @tutorial), method: :delete, remote: true, class: 'btn btn-danger btn-sm', :'data-confirm' => 'This action will delete your tutorial'

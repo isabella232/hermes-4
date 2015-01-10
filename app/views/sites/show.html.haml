@@ -1,7 +1,7 @@
 .col-md-8.col-md-offset-2.animated.fadeInUp
   %h1
     %b= @site.name
-  %h2= @site.hostname
+  %h2= @site.url
   %p
     = link_to edit_site_path(@site), remote: true, class: 'btn btn-primary btn-sm' do
       edit
@@ -25,7 +25,7 @@
     .alert.alert-warning.text-center
       <b>heads up</b>: don't forget to add the hermes script below
   %p
-    Add the following code to the pages of <span class="label-primary label">#{@site.hostname}</span>, inside your JavaScript/CoffeeScript. Preferably inside the <a href="http://api.jquery.com/ready/" target="_blank">domready</a> and <b>after</b> your app initialization.
+    Add the following code to the pages of <span class="label-primary label">#{@site.hostname}</span> inside your JavaScript/CoffeeScript. Preferably inside the <a href="http://api.jquery.com/ready/" target="_blank">domready</a> and <b>after</b> your app initialization.
   .embed-element
     %pre#embed_dynamic
       (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.setAttribute('id','hermes_script_embed');s.setAttribute('data-ref','#{@site.hostname}');s.src='#{hermes_embed_url}';l.parentNode.insertBefore(s,l)}(document));

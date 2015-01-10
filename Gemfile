@@ -23,6 +23,7 @@ gem 'animate-rails'
 gem 'autosize-rails'
 gem 'medium-editor-rails'
 gem 'zeroclipboard-rails'
+gem 'airbrake'
 
 group :doc do
   gem 'sdoc', require: false

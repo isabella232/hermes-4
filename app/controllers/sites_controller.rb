@@ -63,7 +63,7 @@ class SitesController < ApplicationController
 
   protected
     def sites_param
-      params.require(:site).permit(:name, :hostname, :description)
+      params.require(:site).permit(:name, :hostname, :description, :protocol)
     end
 
     def tip_params

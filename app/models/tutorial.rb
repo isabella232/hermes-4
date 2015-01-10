@@ -4,7 +4,7 @@ class Tutorial < ActiveRecord::Base
   include Politeness
   include PathScoping
   include SelectorChecking
-  include Validations
+  include PathValidations
 
   belongs_to :site, inverse_of: :tutorials
 
@@ -19,8 +19,8 @@ class Tutorial < ActiveRecord::Base
 
   protected
 
-    def normalize_path
-      self.path = self.path.gsub(/(\s+)/, '')
-    end
+  def normalize_path
+    self.path = self.path.gsub(/(\s+)/, '')
+  end
 
 end
