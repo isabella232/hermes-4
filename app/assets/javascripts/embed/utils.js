@@ -1,8 +1,15 @@
 /*
+  ---
 
-Various utils
-  + Path finder. Given a node, find the css path
+  __hermes_embed.utils
 
+  Various JS utils
+
+  (c) IFAD 2015
+  @author: Stefano Ceschi Berrini <stefano.ceschib@gmail.com>
+  @license: see LICENSE.md
+
+  ---
 */
 
 // prototypes utilities

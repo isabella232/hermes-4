@@ -1,3 +1,17 @@
+/*
+  ---
+
+  __hermes_embed.Tutorial
+
+  The Tutorial class.
+
+  (c) IFAD 2015
+  @author: Stefano Ceschi Berrini <stefano.ceschib@gmail.com>
+  @license: see LICENSE.md
+
+  ---
+*/
+
 __hermes_embed.init_tutorial = function($) {
 
   !(function(w, ns){

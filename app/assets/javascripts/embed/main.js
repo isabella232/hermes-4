@@ -14,11 +14,11 @@
 
   Embedded Hermes Flow:
     * page is being loaded
-    * this javascript is loaded one way or the other
+    * this javascript is loaded one way (dynamically) or the other (static <script>)
     
     1 - check the message from the opener (if any) or init the App on window load
 
-    2 - jquery checker
+    2 - jquery checker that returns a $ noconflicted
     3 - type of action (by message received, or by standard init, or by cookie/QS check if in the middle of a tutorial)
             /      \                             /                       /
     3a - Authoring  \                         /                         /
@@ -84,7 +84,7 @@
 
   /**
     * initPubSub
-    * the pubsub pattern, very useful to send/receive messages throughout the application
+    * the pubsub pattern, useful to send/receive messages throughout the application
     *
     * @param {$} function, the jQuery object noconflicted
     *
