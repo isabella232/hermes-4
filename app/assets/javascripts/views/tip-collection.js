@@ -1,25 +1,15 @@
 /*
+  ---
 
-Copyright (c) <2014> <IFAD>
+  HERMES.TipCollection
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+  The view for tip collection (tip index, tutorial show)
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+  (c) IFAD 2015
+  @author: Stefano Ceschi Berrini <stefano.ceschib@gmail.com>
+  @license: see LICENSE.md
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
+  ---
 */
 
 !(function($, ns, w){
@@ -29,12 +19,15 @@ THE SOFTWARE.
 
 
   /**
-  *
-  * TipEdit object constructor. It handles the tip edit form.
-  *
-  * @return {this} (current instance, chaining purpose)
-  *
-  **/
+    *
+    * TipCollection class
+    * ctor 
+    *
+    * @param {element} the element that wraps the tip collection
+    *
+    * @return {this} chainability
+    *
+    **/
 
   var TipCollection = function(element) {
     this.version = '0.1';
@@ -42,6 +35,17 @@ THE SOFTWARE.
     this.init();
     return this;
   };
+
+
+  /**
+    *
+    * destroyTip
+    * 
+    * this is called when a tip is destroyed and DOM element needs to be removed
+    *
+    * @param {id} Number, the id of the tip
+    *
+    **/
 
   TipCollection.prototype.destroyTip = function(id) {
     this.element.find('[data-tip-id=' + id + ']').remove();
@@ -52,6 +56,17 @@ THE SOFTWARE.
     }
   }
 
+
+  /**
+    *
+    * _receiveMessage
+    * 
+    * this is the handler for the postMessage's 'message' listener
+    *
+    * @param {evt} event, the event of the postMessage 
+    *
+    **/
+
   TipCollection.prototype._receiveMessage = function(evt) {
     if (evt.data === '__get__mode__') {
       this.openedWindow.postMessage('preview', this.openedWindowHref);
@@ -61,6 +76,17 @@ THE SOFTWARE.
     return this;
   }
 
+
+  /**
+    *
+    * openExternalLink
+    * 
+    * open the url for preview
+    *
+    * @param {evt} event, the DOM event
+    *
+    **/
+
   TipCollection.prototype.openExternalLink = function(evt) {
     evt.preventDefault();
     var $target = $(evt.target);
@@ -69,6 +95,17 @@ THE SOFTWARE.
     this.openedWindow = w.open($target.attr('href'));
     this.openedWindowHref = $target.attr('href');
   }
+
+
+  /**
+    *
+    * init
+    * 
+    * start the sortable on tips and set event handling
+    *
+    * @param {evt} event, the DOM event
+    *
+    **/
 
   TipCollection.prototype.init = function() {
     this.element.find('.tips-container').sortable({

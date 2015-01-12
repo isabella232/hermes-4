@@ -361,16 +361,40 @@ Node.prototype.nodeNameInCorrectCase = function(){
     },
 
 
+    /**
+      * onBeforeUnloadTutorialFn
+      *
+      * @param {evt} the event
+      *
+      **/ 
     onBeforeUnloadTutorialFn: function(evt) {
-      return "You're in the middle of a tutorial. By navigating away you will lose the current status.";
+      return ns.labels.beforeUnloadWarning;
     },
 
+
+    /**
+      * strip
+      *
+      * @param {html} String of the html that needs to be stripped
+      *
+      **/
     strip: function(html){
        var tmp = document.createElement("DIV");
        tmp.innerHTML = html;
        return (tmp.textContent || tmp.innerText || "").trim();
     },
 
+
+    /**
+      * isElementInViewport
+      *
+      * check if an element is on the viewport
+      *
+      * @param {elem} DOM element
+      *
+      * @return Boolean, true if elem is in the viewport, false otherwise
+      *
+      **/
     isElementInViewport: function(elem) {
       var rect = elem.getBoundingClientRect();
       return (
@@ -380,6 +404,19 @@ Node.prototype.nodeNameInCorrectCase = function(){
         rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
       );
     },
+
+
+    /**
+      * checkFixedElement
+      *
+      * check if an element is fixed or one of the parents is fixed
+      *
+      * @param {elem} DOM element
+      * @param {$} jQuery object
+      *
+      * @return DOM element, if there's a fixed element as parent (or the element itself), otherwise return the string 'body'
+      *
+      **/
 
     checkFixedElement: function(elem, $) {
       var isFixed = elem.css('position') === 'fixed',
@@ -402,6 +439,18 @@ Node.prototype.nodeNameInCorrectCase = function(){
       }
       return 'body';
     },
+
+
+    /**
+      * getParameterByName
+      *
+      * for a querystring name, return its value
+      *
+      * @param {name} String, the name of the param
+      *
+      * @return String the value of the qs name
+      *
+      **/
 
     getParameterByName: function(name) {
       name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");

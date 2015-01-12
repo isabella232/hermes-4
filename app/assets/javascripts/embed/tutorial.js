@@ -4,6 +4,9 @@
   __hermes_embed.Tutorial
 
   The Tutorial class.
+  This class, once instantiated, manages and holds the state of a single Tutorial. 
+  The core, and the most complicated, method of this class is the *checkPathAndDisplay* method, 
+  that has to decide whether a tip is part of the same page or not.
 
   (c) IFAD 2015
   @author: Stefano Ceschi Berrini <stefano.ceschib@gmail.com>
@@ -28,37 +31,100 @@ __hermes_embed.init_tutorial = function($) {
         }
     ;
 
+    /**
+      *
+      * Tutorial class
+      *
+      * ctor 
+      *
+      * @param options
+      * @param startedOptions (if a tutorial is already started and user changes page)
+      *
+      * @return {this} chainability
+      *
+      **/
+
     var Tutorial = function(options, startedOptions) {
       this.version = '0.1';
-      if (startedOptions == null){
+      if (startedOptions == null){ // init 'normally'
         this.options = $.extend({}, DEFAULTS, options);
         this.init();
-      } else {
+      } else { // init an already started tutorial
         this.options = $.extend({}, DEFAULTS);
         this.initStarted(startedOptions);
       }
       return this;
     };
 
+
+    /**
+      * getCurrentIndex
+      *
+      * @return Number the current tip index
+      *
+      **/
+
     Tutorial.prototype.getCurrentIndex = function() {
       return this.currentTipIndex;
     }
+
+
+    /**
+      * getTotalTips
+      *
+      * @return Number the total number of tutorial tips
+      *
+      **/
 
     Tutorial.prototype.getTotalTips = function() {
       return this.tips.length;
     }
 
+
+    /**
+      * isStarted
+      *
+      * @return Boolean true if tutorial is started false otherwise
+      *
+      **/
+
     Tutorial.prototype.isStarted = function() {
       return this.started;
     }
+
+
+    /**
+      * isEnd
+      *
+      * @return Boolean true if is the last tip, false otherwise
+      *
+      **/
 
     Tutorial.prototype.isEnd = function() {
       return this.currentTipIndex === (this.tips.length - 1);
     }
 
+
+    /**
+      * isBeginning
+      *
+      * @return Boolean true if is the first tip, false otherwise
+      *
+      **/
+
     Tutorial.prototype.isBeginning = function() {
       return this.currentTipIndex === 0;
     }
+
+
+    /**
+      * canDisplayTip
+      *
+      * @param tip the current tip being evaluated
+      *
+      * @return Boolean true if tip can be displayed in the current page, false otherwise
+      *
+      **/
 
     Tutorial.prototype.canDisplayTip = function(tip) {
       var 
@@ -82,6 +148,25 @@ __hermes_embed.init_tutorial = function($) {
       // must have the same tutorial path (that matches the current page's path)
       return tipIsFromSameSite && (tipHasCurrentPath || tipHasCurrentTutorialPath);
     }
+
+
+    /**
+      * checkPathAndDisplay
+      *
+      * for each tip, we need to know if we can display it in the current page, just *displaying* it
+      * or we need to go to another page and 'save' the current state.
+      * To save the current state we can use 2 techniques: 
+      * 1st: if the next|prev tip is from the same domain, save the state inside some cookies and 
+      *      change location
+      * 2nd: if the next|prev tip is from another domain, build a queryString to represent the state
+      *      and change location accordingly
+      *
+      * @param tip the current tip being evaluated
+      * @param direction the current direction (if user clicked next or prev)
+      *
+      * @return nothing
+      *
+      **/
 
     Tutorial.prototype.checkPathAndDisplay = function(tip, direction) {
       // if tip has been removed during I'm touring it (& I change path)... 
@@ -138,15 +223,44 @@ __hermes_embed.init_tutorial = function($) {
       }
     }
 
+    /**
+      * next
+      *
+      * go to the next tip
+      *
+      * @return this chainability
+      *
+      **/
+
     Tutorial.prototype.next = function() {
       this.checkPathAndDisplay(this.tips[++this.currentTipIndex], 'next')
       return this;
     }
 
+
+    /**
+      * prev
+      *
+      * go to the previous tip
+      *
+      * @return this chainability
+      *
+      **/
+
     Tutorial.prototype.prev = function() {
       this.checkPathAndDisplay(this.tips[--this.currentTipIndex], 'prev');
       return this;
     }
+
+
+    /**
+      * restart
+      *
+      * restart the Tutorial
+      *
+      * @return this chainability
+      *
+      **/
 
     Tutorial.prototype.restart = function() {
       this.currentTipIndex = -1;
@@ -157,6 +271,16 @@ __hermes_embed.init_tutorial = function($) {
       ns.publish('tutorialrestarted', [this]);
       return this;
     }
+
+
+    /**
+      * updateTutorialList
+      *
+      * update the tutorials list
+      *
+      * @return nothing
+      *
+      **/
 
     Tutorial.prototype.updateTutorialList = function() {
       if (!!this.options.to_view) {
@@ -175,6 +299,19 @@ __hermes_embed.init_tutorial = function($) {
       }
     }
 
+
+    /**
+      * end
+      *
+      * end of the Tutorial has been reached. Reset instance variables and let the world
+      * know the tutorial has ended
+      *
+      * @param skip Boolean, if it's defined we don't update the tutorials list
+      *
+      * @return this chainability
+      *
+      **/
+
     Tutorial.prototype.end = function(skip) {
       this.currentTipIndex = -1;
       this.started = false;
@@ -185,6 +322,17 @@ __hermes_embed.init_tutorial = function($) {
       ns.publish('tutorialended', [this.options.url, skip]);
       return this;
     }
+
+
+    /**
+      * start
+      *
+      * start the tutorial! If there's a welcome message start from that message,
+      * otherwise show the first tip
+      *
+      * @return this chainability
+      *
+      **/
 
     Tutorial.prototype.start = function() {
       if (this.started || ns.activeTutorial instanceof Tutorial) {
@@ -205,6 +353,19 @@ __hermes_embed.init_tutorial = function($) {
       return this;
     }
 
+
+    /**
+      * initStarted
+      *
+      * if we're in the middle of a tutorial, we need to start from a previous state (passed by cookies or querystring)
+      * so we ask to the hermes server the tutorial via jsonp and we init it from the correct tip index 
+      *
+      * @param startedOptions the options of the already started tutorial
+      *
+      * @return nothing
+      *
+      **/
+
     Tutorial.prototype.initStarted = function(startedOptions) {
       var url = this.options.retrieveTutorialUrl.replace('{{tutorial_id}}', startedOptions.tutorialId);
       $.ajax(ns.host + url, {
@@ -220,6 +381,18 @@ __hermes_embed.init_tutorial = function($) {
         }.bind(this)
       });
     }
+
+    /**
+      * init
+      *
+      * init all the instance variables and start the tutorial
+      *
+      * @param tipIndex, if this param is present, it means tutorial is already started so we need to display
+      *        tip from that index
+      *
+      * @return this chainability
+      *
+      **/
 
     Tutorial.prototype.init = function(tipIndex) {
       var startElement = null;
@@ -243,6 +416,8 @@ __hermes_embed.init_tutorial = function($) {
       return this;
     }
 
+
+    // export it
     ns.Tutorial = Tutorial;
 
   })(window, __hermes_embed);

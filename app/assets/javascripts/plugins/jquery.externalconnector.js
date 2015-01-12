@@ -1,5 +1,8 @@
 /* ========================================================================
   jQuery External Connector
+  (c) IFAD 2015
+  @author: Stefano Ceschi Berrini <stefano.ceschib@gmail.com>
+  @license: see LICENSE.md
  * ======================================================================== */
 
 
