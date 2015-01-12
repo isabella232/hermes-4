@@ -29,19 +29,19 @@ Hermes is a Rails 4 app so it will be that easy to run it:
 
 	![add new site](https://raw.githubusercontent.com/ifad/hermes/master/screenshots/add_site.png)
 
-* Once you added a site, remember to include the script on your page(s)
+2. Once you added a site, remember to include the script on your page(s)
   * Dynamically:
   
   	`
       (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.setAttribute('id','hermes_script_embed');s.setAttribute('data-ref','example.com');s.src='http://localhost:3001/assets/hermes.js';l.parentNode.insertBefore(s,l)}(document));
     `
-    
+
   * Or in the static old way:
   
     `<script src="http://localhost:3001/assets/hermes.js" id="hermes_script_embed" data-ref="example.com"></script>`
 
 
-* Then, BOOM! You can finally create:
+3. Then, BOOM! You can finally create:
 
   * Tips: they will be shown to your visitors until they dismiss them. They can be bound to particular elements or they can be shown as broadcasts.
   
@@ -56,7 +56,7 @@ Hermes is a Rails 4 app so it will be that easy to run it:
   
     ![add new general broadcast](https://raw.githubusercontent.com/ifad/hermes/master/screenshots/add_general_broadcast.png)
 
-* Happy delivery, by Hermes! :)
+4. Happy delivery, by Hermes! :)
 
 
 ## License
