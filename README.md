@@ -25,22 +25,24 @@ Hermes is a Rails 4 app so it will be that easy to run it:
 
 ## How to use Hermes
 
-1. Add new site. We will add `example.com`
+1. Add a new site. We will add `example.com`
 
 	![add new site](https://raw.githubusercontent.com/ifad/hermes/master/screenshots/add_site.png)
 
-2. Once you added that site, remember to include the hermes embedded script on your page(s)
+2. Once you added that site, remember to include the hermes embedded script on your page(s). You can include it:
   * Dynamically:
   
   	```js
-      (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.setAttribute('id','hermes_script_embed');s.setAttribute('data-ref','example.com');s.src='//url-of-hermes-server/assets/hermes.js';l.parentNode.insertBefore(s,l)}(document));
+      (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.setAttribute('id','hermes_script_embed');s.setAttribute('data-ref','example.com');s.src='//your-hermes-server/assets/hermes.js';l.parentNode.insertBefore(s,l)}(document));
     ```
 
   * Or in the static old way:
   
     ```html
-      <script src="//url-of-hermes-server/assets/hermes.js" id="hermes_script_embed" data-ref="example.com"></script>
+      <script src="//your-hermes-server/assets/hermes.js" id="hermes_script_embed" data-ref="example.com"></script>
     ```
+  
+    **note**: The snippets above are just a demonstration, for each website you will add to hermes a new snippet to add to your pages is created and it will be shown once the site is created!
 
 3. Then, BOOM! You can finally create:
 
