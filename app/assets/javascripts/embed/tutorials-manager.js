@@ -3,7 +3,9 @@
 
   __hermes_embed.TutorialsManager
 
-  The TutorialsManager class.
+  The TutorialsManager class. 
+  This class, once instantiated, holds and manages all the tutorials available for
+  a particular path.
 
   (c) IFAD 2015
   @author: Stefano Ceschi Berrini <stefano.ceschib@gmail.com>
@@ -23,11 +25,34 @@ __hermes_embed.init_tutorials_manager = function($) {
         }
     ;
 
+    /**
+      *
+      * TutorialsManager class
+      *
+      * ctor 
+      *
+      * @param options
+      *
+      * @return {this} chainability
+      *
+      **/
+
     var TutorialsManager = function(options) {
       this.version = '0.1';
       this.options = $.extend({}, DEFAULTS, options);
       this.init();
     };
+
+
+    /**
+      *
+      * initSelectorTutorials
+      *
+      * init the tutorials that will be started by clicking an element of the page
+      *
+      * @return nothing
+      *
+      **/
 
     TutorialsManager.prototype.initSelectorTutorials = function() {
       this.selectorTutorialInit = true;
@@ -35,6 +60,21 @@ __hermes_embed.init_tutorials_manager = function($) {
         ns.publish('loadTutorial', [selectorTutorial]);
       });
     }
+
+
+    /**
+      *
+      * setTutorials
+      *
+      * @param tutorials the tutorials json
+      *
+      * Set the 3 sets of tutorials: already viewed, to view and tutorials that need to be started
+      * by clicking an element (selector tutorials). If the selector doesn't match any element then
+      * add it on the list of the available tutorials.
+      *
+      * @return nothing
+      *
+      **/
 
     TutorialsManager.prototype.setTutorials = function(tutorials) {
       var len = 0;
@@ -67,6 +107,18 @@ __hermes_embed.init_tutorials_manager = function($) {
       }
     }
 
+
+    /**
+      *
+      * init
+      *
+      * Ask the server for the tutorials available for the current page, and once it replies
+      * set the tutorials.
+      *
+      * @return nothing
+      *
+      **/
+
     TutorialsManager.prototype.init = function() {
       $.ajax(ns.host + this.options.retrieveTutorialsUrl, {
         dataType: 'jsonp',
@@ -74,6 +126,8 @@ __hermes_embed.init_tutorials_manager = function($) {
       });
     }
 
+
+    // export it
     ns.TutorialsManager = TutorialsManager;
 
   })(window, __hermes_embed);

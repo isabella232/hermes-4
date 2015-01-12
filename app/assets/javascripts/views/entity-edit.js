@@ -85,7 +85,6 @@ THE SOFTWARE.
   };
 
   // export it via provided namespace
-
   ns.EntityEdit = EntityEdit;
 
 })(jQuery, HERMES, this);

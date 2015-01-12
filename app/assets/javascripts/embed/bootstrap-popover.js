@@ -1,3 +1,19 @@
+/*
+  ---
+
+  __hermes_embed.init_popover
+
+  Once this function is called, it makes $.fn.tooltip and $.fn.popover available
+  for the passed jQuery object
+
+  (c) IFAD 2015
+  @author: Stefano Ceschi Berrini <stefano.ceschib@gmail.com>
+  @license: see LICENSE.md
+
+  ---
+*/
+
+
 /* ========================================================================
  * Bootstrap: tooltip.js v3.3.1
  * http://getbootstrap.com/javascript/#tooltip
@@ -596,4 +612,4 @@ __hermes_embed.init_popover = function (jQuery) {
 
   }(jQuery)
 
-}; // init_popover
+};

@@ -28,7 +28,9 @@
     elementNoMorePresent        : 'The element attached to the tip is no more present in this page! (hint: Is it maybe attached to a dynamically generated element?)',
     elementPositionFixedWarning : 'The item you\'re going to bind has position:fixed(or it has a parent with position:fixed). The tip will be bound to that element to preserve page scrolling. Check whether that fixed element doesn\'t have overflow:hidden. Proceed?',
     noMoreTips                  : 'No more tips to display for this tutorial!',
-    alreadyViewed               : 'Already viewed'
+    alreadyViewed               : 'Already viewed',
+    hermesPreviewMode           : 'Hermes preview mode',
+    beforeOnloadWarning         : "You're in the middle of a tutorial. By navigating away you will lose the current status."
   }
 
 

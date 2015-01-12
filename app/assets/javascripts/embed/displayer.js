@@ -1,3 +1,20 @@
+/*
+  ---
+
+  __hermes_embed.Displayer
+
+  The Displayer class. 
+  This class manages all the DOM manipulation and the html for the hermes embed.
+  The core method is "display".
+
+  (c) IFAD 2015
+  @author: Stefano Ceschi Berrini <stefano.ceschib@gmail.com>
+  @license: see LICENSE.md
+
+  ---
+*/
+
+
 __hermes_embed.init_displayer = function($) {
 
   !(function(w, ns){
@@ -10,7 +27,8 @@ __hermes_embed.init_displayer = function($) {
           overlayPadding: 3
         },
 
-        // templates
+        // All the templates (maybe in the future they can be defined in a separate file or even better w/ haml and then compiled 
+        //                    and imported like the cssloader)
 
         STATUS_MESSAGE =
           '<div class="hermes-status-message">\
@@ -96,11 +114,38 @@ __hermes_embed.init_displayer = function($) {
           </div>'
     ;
 
+
+    /**
+      *
+      * Displayer class
+      *
+      * ctor 
+      *
+      * @param options
+      *
+      * @return {this} chainability
+      *
+      **/
+
     var Displayer = function(options) {
       this.version = '0.1';
       this.options = $.extend({}, DEFAULTS, options);
       this.init();
+      return this;
     };
+
+
+    /**
+      *
+      * displayStatus
+      *
+      * show a message to the user about the status of the hermes embed
+      *
+      * @param {message} Object, the message that needs to be displayed via message.text
+      *
+      * @return nothing
+      *
+      **/
 
     Displayer.prototype.displayStatus = function(message) {
       var content = $(STATUS_MESSAGE.replace('{{title}}', message.text));
@@ -109,6 +154,19 @@ __hermes_embed.init_displayer = function($) {
         content.addClass('displayed');
       }, 200);
     }
+
+
+    /**
+      *
+      * displayProgressBar
+      *
+      * show a progress bar during a tutorial
+      *
+      * @param {message} Object, the message that holds the tutorial reference
+      *
+      * @return nothing
+      *
+      **/
 
     Displayer.prototype.displayProgressBar = function(message) {
       var position = message.tutorial.getCurrentIndex()+1, // starts from 0
@@ -123,6 +181,19 @@ __hermes_embed.init_displayer = function($) {
         width: ~~(position * 100 / tot) + "%"
       });
     }
+
+
+    /**
+      *
+      * displayElementOverlay
+      *
+      * show an overlay for the element (tip/broadcast of a tutorial)
+      *
+      * @param {elem} DOM node, the element that is being displayed
+      *
+      * @return nothing
+      *
+      **/
 
     Displayer.prototype.displayElementOverlay = function(elem) {
       var elemOffset = elem.offset(),
@@ -162,6 +233,19 @@ __hermes_embed.init_displayer = function($) {
       });
     }
 
+
+    /**
+      *
+      * displayOverlay
+      *
+      * set the overlay for the elements
+      *
+      * @param {elem} DOM node, the element that is being displayed
+      *
+      * @return nothing
+      *
+      **/
+
     Displayer.prototype.displayOverlay = function(elem) {
       var content = null;
       if (!ns.DOM.overlay) {
@@ -180,6 +264,21 @@ __hermes_embed.init_displayer = function($) {
       this.displayElementOverlay(elem);
     }
 
+
+    /**
+      *
+      * hideTip
+      *
+      * hide the current tip
+      *
+      * @param {elem} DOM node, the element that is being displayed
+      * @param {tip} the current tip
+      * @param {evt} Event
+      *
+      * @return nothing
+      *
+      **/
+
     Displayer.prototype.hideTip = function(elem, tip, evt) {
       elem.popover('destroy');
       elem.off('.popover').removeData('bs.popover');
@@ -187,10 +286,39 @@ __hermes_embed.init_displayer = function($) {
       ns.publish('tipHidden', [tip, evt])
     }
 
+
+    /**
+      *
+      * hideBroadcast
+      *
+      * hide the current broadcast
+      *
+      * @param {elem} DOM node, the element that is being displayed
+      * @param {message} the current broadcast
+      * @param {evt} Event
+      *
+      * @return nothing
+      *
+      **/
+
     Displayer.prototype.hideBroadcast = function(elem, message, evt) {
       elem.remove();
       ns.publish('broadcastHidden', [message, evt])
     }
+
+
+    /**
+      *
+      * displayTip
+      *
+      * display the current tip
+      *
+      * @param {tip} Object, the current tip
+      * @param {elem} DOM node associated to the tip via tip.selector
+      *
+      * @return nothing
+      *
+      **/
 
     Displayer.prototype.displayTip = function(tip, elem) {
       var content = $(TIP_TEMPLATE),
@@ -221,6 +349,19 @@ __hermes_embed.init_displayer = function($) {
 
     }
 
+
+    /**
+      *
+      * displayBroadcast
+      *
+      * display the current broadcast
+      *
+      * @param {message} Object, the current broadcast
+      *
+      * @return nothing
+      *
+      **/
+
     Displayer.prototype.displayBroadcast = function(message) {
       var content = $(BROADCAST_TEMPLATE);
       content
@@ -233,6 +374,21 @@ __hermes_embed.init_displayer = function($) {
       BODY.append(content);
     }
 
+
+    /**
+      *
+      * handleTutorialButtons
+      *
+      * for each tutorial tip/broadcast, buttons are different for the 1st and the last tutorial
+      * first doesn't have 'prev', last doesn't have 'next'
+      *
+      * @param {tip} Object, the current tip
+      * @param {content} The jQuery DOM element associated to the tip
+      *
+      * @return nothing
+      *
+      **/
+      
     Displayer.prototype.handleTutorialButtons = function(tip, content) {
       // show buttons by looking at tutorial (through tutorial_ref) status
       if (tip.tutorial_ref.isEnd()) {
@@ -251,6 +407,18 @@ __hermes_embed.init_displayer = function($) {
         content.find('.js--hermes-end').remove();
       }
     }
+
+    /**
+      *
+      * displayTutorialBroadcast
+      *
+      * display the current tutorial broadcast
+      *
+      * @param {message} Object, the current broadcast
+      *
+      * @return nothing
+      *
+      **/
 
     Displayer.prototype.displayTutorialBroadcast = function(message) {
       var content = $(TUTORIAL_BROADCAST_TEMPLATE);
@@ -283,6 +451,20 @@ __hermes_embed.init_displayer = function($) {
       this.currentObject = {element: content, tip: message, content: content, type: 'broadcast'};
       message.tutorial_ref.options.overlay && this.displayOverlay(content);
     }
+
+
+    /**
+      *
+      * displayTutorialTip
+      *
+      * display the current tutorial tip
+      *
+      * @param {tip} Object, the current tip
+      * @param {elem} DOM node, the element associated to the tip via tip.selector
+      *
+      * @return nothing
+      *
+      **/
 
     Displayer.prototype.displayTutorialTip = function(tip, elem) {
       var content = $(TUTORIAL_TIP_TEMPLATE),
@@ -340,6 +522,19 @@ __hermes_embed.init_displayer = function($) {
       tip.tutorial_ref.options.overlay && this.displayOverlay(elem);
     }
 
+
+    /**
+      *
+      * displayTutorialStarter
+      *
+      * display the tutorial starter if tutorial has a welcome message
+      *
+      * @param {message} Object, that holds the tutorial reference
+      *
+      * @return nothing
+      *
+      **/
+
     Displayer.prototype.displayTutorialStarter = function(message) {
       var contentStr = TUTORIAL_STARTER_TEMPLATE.replace('{{welcome_message}}', message.tutorial.welcome).replace('{{title}}', message.tutorial.title)
           content = $(contentStr)
@@ -360,6 +555,19 @@ __hermes_embed.init_displayer = function($) {
 
       ns.publish('hideAvailableTutorials');
     }
+
+
+    /**
+      *
+      * displayAvailableTutorials
+      *
+      * display the list of available tutorials (showing viewed tutorials and the *new* tutorials)
+      *
+      * @param {message} Object, that holds all the tutorials of the page
+      *
+      * @return nothing
+      *
+      **/
 
     Displayer.prototype.displayAvailableTutorials = function(message) {
       var content = $(AVAILABLE_TUTORIALS_TEMPLATE),
@@ -400,6 +608,19 @@ __hermes_embed.init_displayer = function($) {
       }, 200);
       ns.DOM.availableTutorialsDisplayer = content;
     }
+
+
+    /**
+      *
+      * display
+      *
+      * Given a message, decide what to display based on the type of the message
+      *
+      * @param {message} Object, that holds the information to be displayed
+      *
+      * @return nothing
+      *
+      **/
 
     Displayer.prototype.display = function(message) {
       switch(message.type) {
@@ -444,6 +665,17 @@ __hermes_embed.init_displayer = function($) {
       }
     }
 
+
+    /**
+      *
+      * recalculate (<FUTURE DEV>)
+      *
+      * When the window is resized, we should recalculate the overlay + the tip position
+      *
+      * @return nothing
+      *
+      **/
+
     // Displayer.prototype.recalculate = function() {
     //   var obj = this.currentObject;
     //   if (obj) {
@@ -460,10 +692,22 @@ __hermes_embed.init_displayer = function($) {
     //   }
     // }
 
+
+    /**
+      *
+      * init
+      *
+      * @return nothing
+      *
+      **/
+
     Displayer.prototype.init = function() {
+      // <FUTURE DEV>
       // $(w).on('resize', ns.utils.throttle(this.recalculate.bind(this), 100));
     }
 
+
+    // export it
     ns.Displayer = Displayer;
 
   })(window, __hermes_embed);

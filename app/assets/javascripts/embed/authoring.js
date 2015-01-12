@@ -1,3 +1,19 @@
+/*
+  ---
+
+  __hermes_embed.Authoring
+
+  The Authoring class. 
+  When a user needs to bind a tip (or to start a tutorial by clicking an element) this class is instatiated and it 
+  manages the authoring.
+
+  (c) IFAD 2015
+  @author: Stefano Ceschi Berrini <stefano.ceschib@gmail.com>
+  @license: see LICENSE.md
+
+  ---
+*/
+
 __hermes_embed.init_authoring = function($) {
 
   !(function(w, ns){
@@ -23,11 +39,36 @@ __hermes_embed.init_authoring = function($) {
         }
     ;
 
+
+    /**
+      *
+      * Authoring class
+      *
+      * ctor 
+      *
+      * @param options
+      *
+      * @return {this} chainability
+      *
+      **/
+
     var Authoring = function(options) {
       this.version = '0.1';
       this.options = $.extend({}, DEFAULTS, options);
       this.init();
+      return this;
     };
+
+
+    /**
+      *
+      * prepareOverlay
+      *
+      * set the overlay (this is called just once on the init method)
+      *
+      * @return nothing
+      *
+      **/
 
     Authoring.prototype.prepareOverlay = function() {
       this.overlay = {
@@ -42,6 +83,19 @@ __hermes_embed.init_authoring = function($) {
       }
     }
 
+
+    /**
+      *
+      * buildOverlay
+      *
+      * build the overlay for each element that user hovers
+      *
+      * @param {element} the DOM element being hovered
+      *
+      * @return nothing
+      *
+      **/
+
     Authoring.prototype.buildOverlay = function(element) {
       var rect = element.getBoundingClientRect(),
           scrollTop = DOC.scrollTop(),
@@ -49,7 +103,6 @@ __hermes_embed.init_authoring = function($) {
           t = this.options.thickness
       ;
       // North
-      //
       this.overlay.N.css({
         width:  rect.width,
         height: t,
@@ -58,7 +111,6 @@ __hermes_embed.init_authoring = function($) {
       });
 
       // South
-      //
       this.overlay.S.css({
         width:  rect.width,
         height: t,
@@ -67,7 +119,6 @@ __hermes_embed.init_authoring = function($) {
       });
 
       // East
-      //
       this.overlay.E.css({
         width:  t,
         height: rect.height + t,
@@ -76,7 +127,6 @@ __hermes_embed.init_authoring = function($) {
       });
 
       // West
-      //
       this.overlay.W.css({
         width:  t,
         height: rect.height + t,
@@ -84,6 +134,20 @@ __hermes_embed.init_authoring = function($) {
         left:   (rect.left - t/2) + scrollLeft
       });
     }
+
+
+    /**
+      *
+      * mouseover
+      *
+      * The handler associated to the mouseover event. 
+      * For each element that is overed, show the overlay and change bg color
+      *
+      * @param {evt} the DOM event
+      *
+      * @return nothing
+      *
+      **/
 
     Authoring.prototype.mouseover = function(evt) {
       try {
@@ -99,7 +163,6 @@ __hermes_embed.init_authoring = function($) {
         this.buildOverlay(element);
 
         // Reset the old selected element
-        //
         if (this.selectedElement && $.contains(document, this.selectedElement)) {
           this.selectedElement = $(this.selectedElement);
           this.selectedElement
@@ -109,7 +172,6 @@ __hermes_embed.init_authoring = function($) {
         }
         this.selectedElement = element;
         // Set the onclick handler to our callback
-        //
         $(this.selectedElement).data('hermes-restore-css', {
           'cursor': this.selectedElement.style.cursor,
           'background-color': this.selectedElement.style.backgroundColor,
@@ -120,6 +182,19 @@ __hermes_embed.init_authoring = function($) {
         console.log(e);
       }
     }
+
+    /**
+      *
+      * callback
+      *
+      * When user clicks a particular element, this callback is called and, if it's a valid element
+      * a postMessage will be sent to the opener (if there's an opener)
+      *
+      * @param {evt} the DOM event
+      *
+      * @return nothing
+      *
+      **/
 
     Authoring.prototype.callback = function(evt) {
       var path = '',
@@ -155,6 +230,17 @@ __hermes_embed.init_authoring = function($) {
       return {path: path, element: this.selectedElement};
     }
 
+
+    /**
+      *
+      * init
+      *
+      * Display to the user the authoring mode, prepare the overlay and start listening to the mouseover event
+      *
+      * @return nothing
+      *
+      **/
+
     Authoring.prototype.init = function() {
       ns.display({type: 'authoring', text: 'Hermes authoring mode'});
       this.prepareOverlay();
@@ -162,6 +248,8 @@ __hermes_embed.init_authoring = function($) {
       DOC.on('mouseover', ns.utils.throttle(this.mouseover.bind(this), 100));
     }
 
+
+    // export it
     ns.Authoring = Authoring;
 
   })(window, __hermes_embed);
