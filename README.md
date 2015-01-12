@@ -33,13 +33,13 @@ Hermes is a Rails 4 app so it will be that easy to run it:
   * Dynamically:
   
   	```js
-      (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.setAttribute('id','hermes_script_embed');s.setAttribute('data-ref','example.com');s.src='http://localhost:3001/assets/hermes.js';l.parentNode.insertBefore(s,l)}(document));
+      (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.setAttribute('id','hermes_script_embed');s.setAttribute('data-ref','example.com');s.src='//url-of-hermes-server/assets/hermes.js';l.parentNode.insertBefore(s,l)}(document));
     ```
 
   * Or in the static old way:
   
     ```html
-      <script src="http://localhost:3001/assets/hermes.js" id="hermes_script_embed" data-ref="example.com"></script>
+      <script src="//url-of-hermes-server/assets/hermes.js" id="hermes_script_embed" data-ref="example.com"></script>
     ```
 
 3. Then, BOOM! You can finally create:
