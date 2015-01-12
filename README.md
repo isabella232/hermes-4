@@ -25,30 +25,32 @@ Hermes is a Rails 4 app so it will be that easy to run it:
 
 ## How to use Hermes
 
-1. Add new site
+1. Add new site. We will add `example.com`
 
 	![add new site](https://raw.githubusercontent.com/ifad/hermes/master/screenshots/add_site.png)
 
-2. Once you added a site, remember to include the script on your page(s)
+2. Once you added that site, remember to include the hermes embedded script on your page(s)
   * Dynamically:
   
-  	`
+  	```js
       (function(d,l,s){s=d.createElement('script'),l=d.scripts[0];s.setAttribute('id','hermes_script_embed');s.setAttribute('data-ref','example.com');s.src='http://localhost:3001/assets/hermes.js';l.parentNode.insertBefore(s,l)}(document));
-    `
+    ```
 
   * Or in the static old way:
   
-    `<script src="http://localhost:3001/assets/hermes.js" id="hermes_script_embed" data-ref="example.com"></script>`
-
+    ```html
+      <script src="http://localhost:3001/assets/hermes.js" id="hermes_script_embed" data-ref="example.com"></script>
+    ```
 
 3. Then, BOOM! You can finally create:
 
-  * Tips: they will be shown to your visitors until they dismiss them. They can be bound to particular elements or they can be shown as broadcasts.
+  * Tips: they will be shown to your visitors until they dismiss them. They can be bound to particular elements or they can be shown as broadcasts. To bound them you will be able to open `example.com` on hermes' `authoring mode` and you will be able to select elements inside of that webpage. It's surely easier to do it than to explain it!
   
     ![add new tip](https://raw.githubusercontent.com/ifad/hermes/master/screenshots/add_tip.png)
     
     ![all tips](https://raw.githubusercontent.com/ifad/hermes/master/screenshots/all_tips.png)
-  * Tutorials: collections of tips/broadcasts that will be shown to the visitors sequentially.
+
+  * Tutorials: collections of tips/broadcasts that will be shown to the visitors sequentially. They can also be multipage!
   
     ![add new tutorial](https://raw.githubusercontent.com/ifad/hermes/master/screenshots/add_tutorial.png)
     
@@ -56,7 +58,9 @@ Hermes is a Rails 4 app so it will be that easy to run it:
   
     ![add new general broadcast](https://raw.githubusercontent.com/ifad/hermes/master/screenshots/add_general_broadcast.png)
 
-4. Happy delivery, by Hermes! :)
+4. When you (or some user) visit `example.com` or a path on that domain where you have defined some tips/tutorial, you will be able to see all the messages you have created with the awesome Hermes.
+
+5. Happy delivery, by Hermes! :)
 
 
 ## License
