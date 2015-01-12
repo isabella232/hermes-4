@@ -59,7 +59,7 @@ __hermes_embed.init_preview = function($) {
           success: function(message) {
             if(message.type === 'tip') {
               var elem = $(message.selector);
-              if(elem.length === 0 || !elem.is(':visible')) { // check whether the element is present
+              if(elem.length === 0 || !elem.is(':visible')) { // check whether the element is present and
                                                               // if it's not present, tell to the user!
                 alert(ns.labels.elementNoMorePresent);
                 w.close();
