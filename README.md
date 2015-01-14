@@ -19,7 +19,10 @@ Help elements can be:
 
 ## How to setup Hermes
 
-Hermes is a Rails 4 app so it will be that easy to run it:
+Hermes is a Rails 4 app that requires either a Postgres, MySQL or SQLite3 database.
+For SQLite3, the [PCRE extension](https://github.com/ralight/sqlite3-pcre) is
+required, that can usually be found by installing the sqlite3-pcre package of your
+operating system distribution.
 
 * Get the code: `git clone https://github.com/ifad/hermes.git`
 * Install dependencies: `bundle`

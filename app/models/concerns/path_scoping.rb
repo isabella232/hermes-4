@@ -8,7 +8,7 @@ module PathScoping
         where("? ~* path_re", path.presence || '/')
       end
 
-    when /Mysql2Adapter/
+    when /Mysql2Adapter/, /SQlite3Adapter/
       def self.within(path)
         where("? REGEXP path_re", path.presence || '/')
       end
