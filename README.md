@@ -21,7 +21,10 @@ Help elements can be:
 
 Hermes is a Rails 4 app so it will be that easy to run it:
 
-`git clone https://github.com/ifad/hermes.git`, run `bundle`, create your database configuration and then start the server running `rails s`. Done!
+* Get the code: `git clone https://github.com/ifad/hermes.git`
+* Install dependencies: `bundle`
+* Run setup tasks: `rake hermes:setup`
+* Start the server: `rails server`
 
 ## How to use Hermes
 
