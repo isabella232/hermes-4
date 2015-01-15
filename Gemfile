@@ -34,6 +34,9 @@ group :development do
   gem 'pry'
   gem 'pry-nav'
   gem 'pry-rails'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+
   gem RUBY_VERSION.to_f < 2.0 ? 'debugger' : 'byebug'
 end
 
