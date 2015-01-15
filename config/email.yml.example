@@ -1,0 +1,49 @@
+# Production
+#
+production:
+  delivery_method: :smtp
+
+  smtp_settings:
+    address:  localhost
+    port:     25
+
+  default_url_options:
+    protocol: http
+    host:     hermes.ifad.org
+
+
+# Staging
+#
+staging:
+  delivery_method: :smtp
+
+  smtp_settings:
+    address:  localhost
+    port:     25
+
+  default_url_options:
+    protocol: http
+    host:     hermes.staging.ifad.org
+
+
+# Development
+#
+_localhost_3000: &dev_url_options
+  default_url_options:
+    protocol: http
+    host:     localhost
+    port:     3000
+
+development:
+  delivery_method: :smtp
+
+  smtp_settings:
+    address: localhost
+    port:    25
+
+  <<: *dev_url_options
+
+# Test - include only url options
+# as delivery_method is :test.
+test:
+  <<: *dev_url_options
