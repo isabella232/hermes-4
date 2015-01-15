@@ -21,6 +21,6 @@
   h.host = "<%= compute_asset_host %>";
   h.site_ref = s ? s.attributes.getNamedItem('data-ref').value : w.location.host;
   h.env = "<%= Rails.env %>";
-  h.DOM = {} // shortcut to get HERMES dom nodes (+ cache)
+  h.DOM = {}; // shortcut to get HERMES dom nodes (+ cache)
 
 })(this);

@@ -51,9 +51,10 @@
   }
 
   ExternalConnector.prototype._toggleAbsolutePath = function(evt) {
-    if (!$(evt.target).is(':checked'))
+    if (!$(evt.target).is(':checked')){
       this.components.connectLink.attr('data-hostname', this.defaultHost);
-      this._changePath();
+    }
+    this._changePath();
   }
 
   ExternalConnector.prototype._changeAbsolutePath = function(evt) {
