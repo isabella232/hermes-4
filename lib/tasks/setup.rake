@@ -6,6 +6,7 @@ namespace :hermes do
   task :setup do
 
     Setup.database_configuration
+    Setup.email_configuration
     Setup.secret_token
 
     puts "All done. Run the app by running 'rails server'"
@@ -15,14 +16,11 @@ namespace :hermes do
     extend self
 
     def database_configuration
-      template      = 'config/database.yml.example'
-      configuration = 'config/database.yml'
+      configuration_from_example('database')
+    end
 
-      unless File.exists?(configuration)
-        print "* #{template} -> #{configuration} "
-        FileUtils.cp template, configuration
-        puts '✓'
-      end
+    def email_configuration
+      configuration_from_example('email')
     end
 
     def secret_token
@@ -38,5 +36,17 @@ namespace :hermes do
         puts '✓'
       end
     end
+
+    protected
+      def configuration_from_example(name)
+        template      = "config/#{name}.yml.example"
+        configuration = "config/#{name}.yml"
+
+        unless File.exists?(configuration)
+          print "* #{template} -> #{configuration} "
+          FileUtils.cp template, configuration
+          puts '✓'
+        end
+      end
   end
 end
