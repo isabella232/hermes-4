@@ -51,6 +51,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    addressable (2.3.6)
     airbrake (4.1.0)
       builder
       multi_json
@@ -98,6 +99,9 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
+    email_spec (1.5.0)
+      launchy (~> 2.1)
+      mail (~> 2.2)
     erubis (2.7.0)
     execjs (2.2.2)
     factory_girl (4.5.0)
@@ -130,6 +134,8 @@ GEM
       railties (>= 3.2.16)
     json (1.8.1)
     kgio (2.9.2)
+    launchy (2.4.2)
+      addressable (~> 2.3)
     less (2.6.0)
       commonjs (~> 0.2.7)
     less-rails (2.6.0)
@@ -266,6 +272,7 @@ DEPENDENCIES
   data-confirm-modal!
   database_cleaner
   devise
+  email_spec
   factory_girl_rails
   ffaker
   font-awesome-rails
