@@ -3,31 +3,38 @@
 require 'spec_helper'
 
 describe Site do
+  subject { FactoryGirl.create(:site_with_user, protocol: 'http') }
 
-  # TODO: auto-generated
-  describe '#by_user' do
-    it 'works' do
-      user = double('user')
-      result = Site.by_user(user)
-      expect(result).not_to be_nil
+  it { should belong_to(:user).inverse_of(:sites) }
+
+  it { should have_many(:tips).inverse_of(:tippable).dependent(:destroy) }
+  it { should have_many(:tutorials).inverse_of(:site).dependent(:destroy) }
+
+  it { should validate_presence_of(:user_id) }
+  it { should validate_presence_of(:name) }
+  it { should validate_presence_of(:hostname) }
+  it { should validate_presence_of(:protocol) }
+
+  it { should validate_uniqueness_of(:user_id).scoped_to(:hostname) }
+  it { should validate_uniqueness_of(:name).scoped_to(:hostname) }
+  it { should validate_uniqueness_of(:hostname) }
+  it { should validate_uniqueness_of(:protocol).scoped_to(:hostname) }
+
+  context 'scopes' do
+    describe '#by_user' do
+      let!(:user) { FactoryGirl.create(:user) }
+
+      it "returns records belonging to a concrete user" do
+        expect(described_class.by_user(user).where_values_hash).to eq('user_id' => user.id)
+      end
     end
   end
 
-  # TODO: auto-generated
-  describe '#by_url' do
-    it 'works' do
-      url = double('url')
-      result = Site.by_url(url)
-      expect(result).not_to be_nil
-    end
-  end
 
   # TODO: auto-generated
-  describe '#url' do
+  describe '.url' do
     it 'works' do
-      site = Site.new
-      result = site.url
-      expect(result).not_to be_nil
+      expect(subject.url).to eq("#{subject.protocol}://#{subject.hostname}")
     end
   end
 

@@ -21,5 +21,9 @@ module Hermes
     # config.i18n.default_locale = :de
 
     config.assets.precompile += %w(hermes.js)
+
+    config.generators do |g|
+      g.fixture_replacement :factory_girl
+    end
   end
 end
