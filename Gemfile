@@ -37,6 +37,8 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'email_spec'
   gem 'shoulda-matchers', require: false
+  gem 'rspec-collection_matchers'
+
 end
 
 group :development do

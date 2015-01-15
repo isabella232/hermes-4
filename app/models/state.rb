@@ -19,8 +19,8 @@ class State < ActiveRecord::Base
 
   scope :unwanted_by, -> remote_user do
     select(:message_id).
-    where(:remote_user => remote_user).
-    where('show_at > ?', Time.now)
+      where(remote_user: remote_user).
+      where('show_at > ?', Time.now)
   end
 
   # Dismisses the given message for the given user, so that it
