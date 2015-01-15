@@ -29,6 +29,14 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0'
+  gem 'factory_girl_rails'
+  gem 'fuubar'
+  gem 'ffaker'
+  gem 'database_cleaner'
+end
+
 group :development do
   gem 'mysql2'
   gem 'pry'
