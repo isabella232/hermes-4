@@ -17,8 +17,15 @@ describe Site do
 
   it { should validate_uniqueness_of(:user_id).scoped_to(:hostname) }
   it { should validate_uniqueness_of(:name).scoped_to(:hostname) }
-  it { should validate_uniqueness_of(:hostname) }
   it { should validate_uniqueness_of(:protocol).scoped_to(:hostname) }
+  it { should validate_uniqueness_of(:hostname) }
+
+  it { should allow_value('foo.com').for(:hostname) }
+  it { should allow_value('foo-bar.com').for(:hostname) }
+  it { should_not allow_value('foo').for(:hostname) }
+  it { should_not allow_value('foo$.bar').for(:hostname) }
+
+  it { should validate_inclusion_of(:protocol).in_array(%w(http https)) }
 
   context 'scopes' do
     describe '#by_user' do
@@ -30,8 +37,6 @@ describe Site do
     end
   end
 
-
-  # TODO: auto-generated
   describe '.url' do
     it 'works' do
       expect(subject.url).to eq("#{subject.protocol}://#{subject.hostname}")
