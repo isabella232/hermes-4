@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-require 'spec_helper'
+require 'rails_helper'
 
 describe Site do
   subject { FactoryGirl.create(:site_with_user, protocol: 'http') }

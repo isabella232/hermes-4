@@ -12,7 +12,7 @@ Hermes::Application.routes.draw do
     end
   end
 
-  put '/tips/:id/position'  => 'tips#position'
+  put '/tips/:id/position'  => 'tips#position', as: :tip_position
 
   # tutorials (from client)
   get "/messages/tutorials.js"                   => "messages#tutorials"
