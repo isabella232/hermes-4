@@ -4,11 +4,11 @@ describe SitesController, type: :controller do
   login
 
   describe 'routing' do
-    it { expect(   get: '/'            ).to route_to(controller: 'sites', action: 'index'           ) }
+    it { expect(   get: '/'            ).to route_to(controller: 'sites', action: 'index')            }
 
-    it { expect(   get: '/sites'       ).to route_to(controller: 'sites', action: 'index'           ) }
-    it { expect(   get: '/sites/new'   ).to route_to(controller: 'sites', action: 'new'             ) }
-    it { expect(  post: '/sites'       ).to route_to(controller: 'sites', action: 'create'          ) }
+    it { expect(   get: '/sites'       ).to route_to(controller: 'sites', action: 'index')            }
+    it { expect(   get: '/sites/new'   ).to route_to(controller: 'sites', action: 'new')              }
+    it { expect(  post: '/sites'       ).to route_to(controller: 'sites', action: 'create')           }
     it { expect(   get: '/sites/1'     ).to route_to(controller: 'sites', action: 'show',    id: '1') }
     it { expect(   get: '/sites/1/edit').to route_to(controller: 'sites', action: 'edit',    id: '1') }
     it { expect(   put: '/sites/1'     ).to route_to(controller: 'sites', action: 'update',  id: '1') }
@@ -18,7 +18,7 @@ describe SitesController, type: :controller do
   end
 
   describe 'helpers' do
-    it { expect(sites_path).to eq('/sites') }
+    it { expect(sites_path).to eq('/sites')                               }
     it { expect(general_broadcast_path).to eq('/sites/general_broadcast') }
   end
 end
