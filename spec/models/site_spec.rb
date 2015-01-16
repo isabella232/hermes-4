@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe Site do
-  subject { FactoryGirl.create(:site_with_user, protocol: 'http') }
+  subject { FactoryGirl.create(:site, protocol: 'http') }
 
   it { should belong_to(:user).inverse_of(:sites) }
 

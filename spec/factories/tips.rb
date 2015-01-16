@@ -3,12 +3,6 @@ FactoryGirl.define do
     title { Faker::Lorem.word }
     content { Faker::Lorem.sentence 10 }
     published_at { 10.days.ago }
-    unpublished_at { 1.day.ago }
-    selector "MyText"
-    row_order 1
-    path "MyString"
-    site_host_ref "MyString"
-    path_re "MyString"
 
     trait :tutorial do
       after :build do |tip, _|
@@ -25,7 +19,7 @@ FactoryGirl.define do
     end
 
     factory :tip_with_tutorial, traits: [ :tutorial ]
-    factory :tip_with_state,    traits: [ :state ]
+    factory :tip_with_site,     traits: [ :site ]
   end
 
 end

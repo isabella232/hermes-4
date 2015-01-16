@@ -18,7 +18,9 @@ module TipsHelper
 
   def preview_tip_link(tip)
     m_path = @tutorial ? "#{message_tutorial_path(@tutorial.id, tip.class.model_name.param_key, tip.id)}" : "#{message_path(tip.class.model_name.param_key, tip.id)}"
+
     preview_path = (tip.site_host_ref.present? ? tip.site_host_ref : @site.url) + tip.path
+
     link_to preview_path, class: 'btn btn-default btn-xs ext', data: {messagepath: m_path} do
       content_tag :i, '', class: 'fa fa-eye'
     end

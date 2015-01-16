@@ -7,14 +7,6 @@ FactoryGirl.define do
     verification_token "MyString"
     verified_at { 10.days.ago }
     protocol "http"
-
-    trait (:user) do
-      after(:create) do |site, evaluator|
-        site.user = FactoryGirl.create(:user)
-      end
-    end
-
-    factory :site_with_user, traits: [ :user ]
   end
 
 end

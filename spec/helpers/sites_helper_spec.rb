@@ -4,13 +4,17 @@ require 'rails_helper'
 
 describe SitesHelper do
 
-  # TODO: auto-generated
   describe '#protocol_chooser' do
+    let!(:site) { FactoryGirl.create :site }
+
     it 'works' do
-      sites_helper = SitesHelper.new
-      f = double('f')
-      result = sites_helper.protocol_chooser(f)
-      expect(result).not_to be_nil
+      obj = double
+
+      expect(obj).to receive(:object).and_return(site)
+      expect(obj).to receive(:select).with(:protocol, anything)
+      expect(helper).to receive(:options_for_select).with(['http', 'https'], site.protocol)
+
+      helper.protocol_chooser(obj)
     end
   end
 
