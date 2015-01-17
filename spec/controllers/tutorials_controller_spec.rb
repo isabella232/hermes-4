@@ -12,7 +12,7 @@ describe TutorialsController do
   describe '#index' do
     it 'works' do
       get :index, site_id: site.id
-
+      expect(assigns(:site)).to           eq site
       expect(assigns(:tutorials).to_a).to eq [tutorial]
 
       expect(response).to have_http_status(:ok)
@@ -23,6 +23,7 @@ describe TutorialsController do
 
       get :index, site_id: new_site.id
 
+      expect(assigns(:site)).to           eq site
       expect(assigns(:tutorials).to_a).to have(0).items
 
       expect(response).to redirect_to(new_site_tutorial_path(new_site))
@@ -59,6 +60,7 @@ describe TutorialsController do
 
       new_tutorial = assigns(:tutorial)
 
+      expect(assigns(:site)).to    eq site
       expect(new_tutorial).to      be_a Tutorial
       expect(new_tutorial.site).to eq site
 
@@ -70,6 +72,7 @@ describe TutorialsController do
 
       new_tutorial = assigns(:tutorial)
 
+      expect(assigns(:site)).to    eq site
       expect(new_tutorial).to      be_a Tutorial
       expect(new_tutorial.site).to eq site
 
@@ -125,7 +128,7 @@ describe TutorialsController do
     it 'works' do
       xhr :delete, :destroy, site_id: site.id, id: tutorial.id
 
-      expect(assigns(:site)).to     eq site
+      expect(assigns(:site)).to         eq site
       expect(assigns(:tutorial)).not_to be_persisted
 
       expect(response).to render_template(:destroy)
