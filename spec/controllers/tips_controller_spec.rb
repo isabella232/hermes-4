@@ -284,4 +284,25 @@ describe TipsController do
     end
   end
 
+  describe '#position' do
+    it 'works' do
+      xhr :put, :position, id: site_tip.id, pos: 1
+
+      expect(assigns(:tip)).to eq site_tip
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'needs pos parameter' do
+      xhr :put, :position, id: site_tip.id
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it 'needs a valid pos parameter' do
+      xhr :put, :position, id: site_tip.id, pos: -1
+
+      expect(response).to have_http_status(:bad_request)
+    end
+  end
 end
