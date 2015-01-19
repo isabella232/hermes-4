@@ -2,13 +2,21 @@ module PathValidationsModel
   def validate_path
     describe '#validate_path' do
       it 'works' do
-        site     = FactoryGirl.create :site, hostname: 'foo.bar/baz'
-        tip      = FactoryGirl.create :tip, tippable: site, path: ''
-        new_site = FactoryGirl.create :site, hostname: 'foo.bar'
-        new_tip  = FactoryGirl.build :tip, tippable: new_site,  path: '/baz'
+        site      = FactoryGirl.create :site, hostname: 'foo.bar/baz'
+        new_site  = FactoryGirl.create :site, hostname: 'foo.bar'
 
-        expect(new_tip).not_to                 be_valid
-        expect(new_tip.errors_on :path).not_to be_blank
+        new_model = if subject.respond_to? :site
+          FactoryGirl.create described_class.name.underscore, site: site, path: ''
+          FactoryGirl.build described_class.name.underscore, site: new_site,  path: '/baz'
+
+
+        else
+          FactoryGirl.create described_class.name.underscore, tippable: site, path: ''
+          FactoryGirl.build described_class.name.underscore, tippable: new_site,  path: '/baz'
+        end
+
+        expect(new_model).not_to                 be_valid
+        expect(new_model.errors_on :path).not_to be_blank
       end
     end
   end
