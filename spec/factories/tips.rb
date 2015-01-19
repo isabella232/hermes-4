@@ -7,14 +7,12 @@ FactoryGirl.define do
     trait :tutorial do
       after :build do |tip, _|
         tip.tippable      = FactoryGirl.create(:tutorial)
-        tip.tippable_type = 'Tutorial'
       end
     end
 
     trait :site do
       after :build do |tip, _|
         tip.tippable      = FactoryGirl.create(:site)
-        tip.tippable_type = 'Site'
       end
     end
 

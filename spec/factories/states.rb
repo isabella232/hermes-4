@@ -6,14 +6,12 @@ FactoryGirl.define do
     trait :tip do
       after :build do |state, _|
         state.message      = FactoryGirl.create(:tip_with_tutorial)
-        state.message_type = 'Tip'
       end
     end
 
     trait :tutorial do
       after :build do |state, _|
         state.message      = FactoryGirl.create(:tutorial)
-        state.message_type = 'Tutorial'
       end
     end
 
