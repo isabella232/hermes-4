@@ -13,7 +13,6 @@ class MessagesController < ApplicationController
   # Used by hermes.js in the GeneralMessaging class
   #
   def index
-    head :not_found and return unless @site
     remote_user = (cookies['__hermes_user'] ||= State.ephemeral_user)
     @messages = @site.tips.published.sorted.within(@path).respecting(remote_user)
 
@@ -43,8 +42,6 @@ class MessagesController < ApplicationController
   # Used by hermes.js in the TutorialsManager class
   #
   def tutorials
-    head :not_found and return unless @site
-
     remote_user = (cookies['__hermes_user'] ||= State.ephemeral_user)
 
     @tutorials_to_view = @site.tutorials.published.noselector.within(@path).respecting(remote_user)
@@ -79,8 +76,6 @@ class MessagesController < ApplicationController
   # passed after the Unix Epoch.
   #
   def update
-    head :bad_request and return unless @message.present?
-
     remote_user = cookies['__hermes_user']
     head :bad_request and return unless remote_user.present?
 
@@ -100,24 +95,25 @@ class MessagesController < ApplicationController
     end
 
     def find_site
-      return unless request.referer.present?
+      head :bad_request and return unless request.referer.present?
 
       @source = URI.parse(request.referer)
-      return unless @source.scheme.in? %w( http https )
+      head :bad_request and return unless @source.scheme.in? %w( http https )
       full_site_ref = [@source.scheme, '://', params[:site_ref]].join()
       path = request.referer.include?(full_site_ref) ? request.referer.sub!(full_site_ref, '') : @source.path
       @path = path == '' ? '/' : path.split('?')[0]
-      @site = Site.where(hostname: params[:site_ref]).first
+
+      head :bad_request unless @site = Site.where(hostname: params[:site_ref]).first
 
     rescue URI::InvalidURIError
-      nil
+      head :bad_request
     end
 
     def find_message
-      return unless params.values_at(:type, :id).all?(&:present?)
+      head :bad_request and return unless params.values_at(:type, :id).all?(&:present?)
       model = params[:type].camelize.constantize
 
-      return unless model.included_modules.include?(Publicable)
+      head :bad_request and return unless model.included_modules.include?(Publicable)
       @message = model.find(params[:id])
     end
 

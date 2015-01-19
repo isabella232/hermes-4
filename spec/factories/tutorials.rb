@@ -1,15 +1,21 @@
 FactoryGirl.define do
   factory :tutorial do
     site
-    title "MyString"
-    published_at "2015-01-15 18:07:32"
-    unpublished_at "2015-01-15 18:07:32"
-    path "MyString"
-    selector "MyText"
-    welcome_message "MyText"
+    title { Faker::Lorem.sentence }
+    published_at { 10.days.ago }
+    unpublished_at { 10.days.from_now}
+    path "/"
+    welcome_message { Faker::Lorem.paragraphs.join }
     overlay false
     progress_bar false
-    path_re "MyString"
-  end
+    selector '//body'
 
+    trait :noselector do
+      after :build do |tutorial, _|
+        tutorial.selector = ''
+      end
+    end
+
+    factory :tutorial_noselector, traits: [ :noselector ]
+  end
 end

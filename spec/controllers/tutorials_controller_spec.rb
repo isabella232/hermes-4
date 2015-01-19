@@ -5,9 +5,9 @@ require 'rails_helper'
 describe TutorialsController do
   login
 
-  let!(:site) { FactoryGirl.create :site }
+  let!(:site)     { FactoryGirl.create :site }
   let!(:tutorial) { FactoryGirl.create :tutorial, site: site }
-  let!(:tip) { FactoryGirl.create :tip, tippable: tutorial, tippable_type: 'Tutorial' }
+  let!(:tip)      { FactoryGirl.create :tip, tippable: tutorial, tippable_type: 'Tutorial' }
 
   describe '#index' do
     it 'works' do
@@ -23,7 +23,7 @@ describe TutorialsController do
 
       get :index, site_id: new_site.id
 
-      expect(assigns(:site)).to           eq site
+      expect(assigns(:site)).to           eq new_site
       expect(assigns(:tutorials).to_a).to have(0).items
 
       expect(response).to redirect_to(new_site_tutorial_path(new_site))
