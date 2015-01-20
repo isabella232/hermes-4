@@ -7,5 +7,6 @@ class Ability
     can :manage, :all
 
     can [:manage, :general_broadcast], Site
+    can [:manage, :position], Tip
   end
 end

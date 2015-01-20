@@ -15,7 +15,7 @@
     - if @tutorials
       %li.active Tutorials
     - if @tip
-      %li= link_to 'Tips', @tutorial ? site_tutorial_tips_path(@site, @tutorial) : site_tips_path(@site)
+      %li= link_to 'Tips', @tutorial ? tutorial_tips_path(@tutorial) : site_tips_path(@site)
     - if @tip && @tip.persisted?
       %li= "Tip: #{@tip.title}"
     - if @tip && !@tip.persisted?

@@ -16,7 +16,7 @@ describe TipsHelper do
       expect(helper.edit_tip_link(tip)).to include(edit_site_tip_path(site, tip))
 
       assign(:tutorial, tutorial)
-      expect(helper.edit_tip_link(tip)).to include(edit_site_tutorial_tip_path(site, tutorial, tip))
+      expect(helper.edit_tip_link(tip)).to include(edit_tutorial_tip_path(tutorial, tip))
     end
   end
 
@@ -25,7 +25,7 @@ describe TipsHelper do
       expect(helper.destroy_tip_link(tip)).to include(site_tip_path(site, tip))
 
       assign(:tutorial, tutorial)
-      expect(helper.destroy_tip_link(tip)).to include(site_tutorial_tip_path(site, tutorial, tip))
+      expect(helper.destroy_tip_link(tip)).to include(tutorial_tip_path(tutorial, tip))
     end
   end
 
@@ -44,7 +44,7 @@ describe TipsHelper do
       expect(helper.new_tip_link).to include(new_site_tip_path(site))
 
       assign(:tutorial, tutorial)
-      expect(helper.new_tip_link).to include(new_site_tutorial_tip_path(site, tutorial))
+      expect(helper.new_tip_link).to include(new_tutorial_tip_path(tutorial))
     end
   end
 

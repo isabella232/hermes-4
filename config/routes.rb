@@ -5,11 +5,13 @@ Hermes::Application.routes.draw do
 
   post '/sites/general_broadcast' => 'sites#general_broadcast', as: :general_broadcast
 
-  resources :sites, except: %w( new ) do
-    resources :tips
-    resources :tutorials do
-      resources :tips
-    end
+  resources :sites, except: :new do
+    resources :tips, controller: 'site_tips'
+    resources :tutorials
+  end
+
+  resources :tutorials, only: :show do
+    resources :tips, controller: 'tutorial_tips'
   end
 
   put '/tips/:id/position'  => 'tips#position', as: :tip_position

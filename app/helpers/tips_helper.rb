@@ -1,11 +1,11 @@
 module TipsHelper
 
   def edit_tip_link(tip)
-    @tutorial ? edit_site_tutorial_tip_path(@site, @tutorial, tip) : edit_site_tip_path(@site, tip)
+    @tutorial ? edit_tutorial_tip_path(@tutorial, tip) : edit_site_tip_path(@site, tip)
   end
 
   def destroy_tip_link(tip)
-    @tutorial ? site_tutorial_tip_path(@site, @tutorial, tip) : site_tip_path(@site, tip)
+    @tutorial ? tutorial_tip_path(@tutorial, tip) : site_tip_path(@site, tip)
   end
 
   def index_title
@@ -13,7 +13,7 @@ module TipsHelper
   end
 
   def new_tip_link
-    @tutorial ? new_site_tutorial_tip_path(@site, @tutorial) : new_site_tip_path(@site)
+    @tutorial ? new_tutorial_tip_path(@tutorial) : new_site_tip_path(@site)
   end
 
   def preview_tip_link(tip)

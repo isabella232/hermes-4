@@ -13,8 +13,8 @@
   - if @tips.any?
     .tip-collection-top
       %p.text-center
-        = link_to 'new tip', new_site_tutorial_tip_path(@site.id, @tutorial.id), class: 'btn btn-lg btn-primary'
-      %h3.animated.fadeInDown= link_to 'All tips:', site_tutorial_tips_path(@site, @tutorial)
+        = link_to 'new tip', new_tutorial_tip_path(@tutorial.id), class: 'btn btn-lg btn-primary'
+      %h3.animated.fadeInDown= link_to 'All tips:', tutorial_tips_path(@tutorial)
     .tips-container= render @tips
 
   .hero-unit.text-center{class: @tips.any? ? 'hide' : 'animated bounceIn'}
