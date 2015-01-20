@@ -16,6 +16,12 @@ FactoryGirl.define do
       end
     end
 
+    trait :site do
+      after :build do |tutorial, e|
+        tutorial.site = e.site.presence || FactoryGirl.create(:site)
+      end
+    end
+
     factory :tutorial_noselector, traits: [ :noselector ]
   end
 end

@@ -5,7 +5,7 @@ require 'rails_helper'
 describe MessagesController do
   extend MessagesControllerCallbacks
 
-  let!(:remote_user) { State.ephemeral_user }
+  let!(:remote_user) { 'foo' }
   let!(:site)        { FactoryGirl.create :site }
   let!(:tutorial)    { FactoryGirl.create :tutorial, site: site }
 
@@ -19,7 +19,7 @@ describe MessagesController do
     requires_a_site           { |opts={}| get :index, opts }
 
     it 'works' do
-      tips = FactoryGirl.create_list :tip, 5, tippable: site, tippable_type: 'Site'
+      tips = FactoryGirl.create_list :tip, 5, tippable: site
 
       get :index, callback: 'http://foo.bar', site_ref: site.hostname
 
@@ -30,7 +30,7 @@ describe MessagesController do
     end
 
     it 'looks for published messages' do
-      tips = FactoryGirl.create_list :tip_unpublished, 5, tippable: site, tippable_type: 'Site'
+      tips = FactoryGirl.create_list :tip_unpublished, 5, tippable: site
 
       get :index, callback: 'http://foo.bar', site_ref: site.hostname
 
@@ -62,11 +62,11 @@ describe MessagesController do
 
   describe '#tutorials' do
     let!(:tutorial)               { FactoryGirl.create :tutorial_noselector, site: site }
-    let!(:state)                  { FactoryGirl.create :state, message: tutorial, message_type: 'Tutorial', remote_user: remote_user }
+    let!(:state)                  { FactoryGirl.create :state, message: tutorial, remote_user: remote_user }
     let!(:viewed_tutorial)        { FactoryGirl.create :tutorial_noselector, site: site }
-    let!(:viewed_state)           { FactoryGirl.create :state, message: viewed_tutorial, message_type: 'Tutorial', show_at: 10.minutes.from_now, remote_user: remote_user }
+    let!(:viewed_state)           { FactoryGirl.create :state, message: viewed_tutorial, show_at: 10.minutes.from_now, remote_user: remote_user }
     let!(:tutorial_with_selector) { FactoryGirl.create :tutorial, site: site }
-    let!(:state_with_selector)    { FactoryGirl.create :state, message: tutorial_with_selector, message_type: 'Tutorial', remote_user: remote_user }
+    let!(:state_with_selector)    { FactoryGirl.create :state, message: tutorial_with_selector, remote_user: remote_user }
 
     requires_a_callback_param { |opts={}| get :tutorials, opts }
     requires_a_site           { |opts={}| get :tutorials, opts }
@@ -95,7 +95,7 @@ describe MessagesController do
   end
 
   describe '#show_tutorial_message' do
-    let!(:tip) { FactoryGirl.create(:tip, tippable: tutorial, tippable_type: 'Tutorial') }
+    let!(:tip) { FactoryGirl.create(:tip, tippable: tutorial) }
 
     requires_a_callback_param { |opts={}| get :show_tutorial_message, opts.merge(tutorial_id: tutorial.id, type: 'Tutorial', id: tutorial.id, format: :json) }
     requires_a_site           { |opts={}| get :show_tutorial_message, opts.merge(tutorial_id: tutorial.id, type: 'Tutorial', id: tutorial.id, format: :json) }
@@ -109,7 +109,7 @@ describe MessagesController do
   end
 
   describe '#update' do
-    let!(:state) { FactoryGirl.create :state, message: tutorial, message_type: 'Tutorial', remote_user: remote_user }
+    let!(:state) { FactoryGirl.create :state, message: tutorial, remote_user: remote_user }
 
     requires_a_callback_param { |opts={}| get :update, opts.merge(type: 'Tutorial', id: tutorial.id, format: :json) }
     requires_a_site           { |opts={}| get :update, opts.merge(type: 'Tutorial', id: tutorial.id, format: :json) }

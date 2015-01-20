@@ -7,7 +7,7 @@ describe TutorialsController do
 
   let!(:site)     { FactoryGirl.create :site }
   let!(:tutorial) { FactoryGirl.create :tutorial, site: site }
-  let!(:tip)      { FactoryGirl.create :tip, tippable: tutorial, tippable_type: 'Tutorial' }
+  let!(:tip)      { FactoryGirl.create :tip, tippable: tutorial }
 
   describe '#index' do
     it 'works' do

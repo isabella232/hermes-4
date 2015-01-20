@@ -5,10 +5,10 @@ require 'rails_helper'
 describe TipsController do
   login
 
-  let!(:site) { FactoryGirl.create :site }
-  let!(:tutorial) { FactoryGirl.create :tutorial, site: site }
-  let!(:tutorial_tip) { FactoryGirl.create :tip, tippable: tutorial, tippable_type: 'Tutorial' }
-  let!(:site_tip) { FactoryGirl.create :tip, tippable: site, tippable_type: 'Site' }
+  let!(:site)         { FactoryGirl.create :site }
+  let!(:tutorial)     { FactoryGirl.create :tutorial, site: site }
+  let!(:tutorial_tip) { FactoryGirl.create :tip, tippable: tutorial }
+  let!(:site_tip)     { FactoryGirl.create :tip, tippable: site }
 
   describe '#index' do
     context 'with tutorial' do
