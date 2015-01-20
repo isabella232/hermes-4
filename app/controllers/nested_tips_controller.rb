@@ -43,7 +43,7 @@ class NestedTipsController < ApplicationController
 
   def update
     if @tip.update_attributes(tip_params)
-      redirect_to [_obj, :tips], :notice => "Message '#{@tip.title}' saved"
+      redirect_to [_obj, :tips], notice: "Message '#{@tip.title}' saved"
     else
       flash.now[:error] = 'There was an error updating your message.'
       render template: 'nested_tips/edit'

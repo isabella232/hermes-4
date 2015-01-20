@@ -23,11 +23,11 @@ class Tip < ActiveRecord::Base
     tip.redisplay && tip.states.delete_all
   end
 
-  before_validation :on => :create do |tip|
+  before_validation on: :create do |tip|
     tip.position = :last
   end
 
-  ranks :row_order, :with_same => [:tippable_id, :tippable_type]
+  ranks :row_order, with_same: [:tippable_id, :tippable_type]
 
   scope :sort_by_row_order, -> { rank(:row_order) }
   scope :broadcasts_first,  -> { order(%[ CASE selector WHEN '' THEN 0 ELSE 1 END ]) }

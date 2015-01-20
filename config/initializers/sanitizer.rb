@@ -34,7 +34,7 @@ Sanitize::Rails.configure(
   },
 
   :protocols => {
-    'a' =>   {'href' => ['ftp', 'http', 'https', 'mailto', :relative]},
+    'a'   => {'href' => ['ftp', 'http', 'https', 'mailto', :relative]},
     'img' => {'src'  => ['http', 'https']}
   },
 

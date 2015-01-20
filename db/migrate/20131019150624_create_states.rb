@@ -2,7 +2,7 @@ class CreateStates < ActiveRecord::Migration
   def change
     create_table :states do |t|
 
-      t.references :message, :polymorphic => true
+      t.references :message, polymorphic: true
       t.timestamp  :show_at
       t.string     :remote_user
     end

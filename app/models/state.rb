@@ -15,7 +15,7 @@ class State < ActiveRecord::Base
     'huid_' << SecureRandom.hex(48)
   end
 
-  scope :for_type, -> type { where(:message_type => type) }
+  scope :for_type, -> type { where(message_type: type) }
 
   scope :unwanted_by, -> remote_user do
     select(:message_id).

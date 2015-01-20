@@ -29,11 +29,11 @@ module TitleHelper
   #
   # Returns the String current title.
   def title(*args)
-    @_title ||= []
+    @_title         ||= []
     @_title_options ||= {
-      :separator => ' - ',
-      :headline  => nil,
-      :site      => nil,
+      separator: ' - ',
+      headline:  nil,
+      site:      nil
     }
 
     options  = args.extract_options!
