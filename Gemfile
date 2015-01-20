@@ -24,6 +24,7 @@ gem 'autosize-rails'
 gem 'medium-editor-rails'
 gem 'zeroclipboard-rails'
 gem 'airbrake'
+gem 'cancan'
 
 group :doc do
   gem 'sdoc', require: false
