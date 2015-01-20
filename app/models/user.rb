@@ -5,4 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :sites, inverse_of: :user, dependent: :destroy
+
+  def admin?
+  end
 end

@@ -1,10 +1,10 @@
 #sites-list
   %ul.list-group
-    = render Site.by_user(current_user) if any_sites?
+    = render sites
     %li.list-group-item
       = link_to '#new-site-modal', class: 'btn btn-block btn-primary', :'data-toggle' => 'modal' do
         New site
-    - if any_sites?
+    - if sites.present?
       %li.list-group-item
         = link_to '#general-broadcast-modal', class: 'btn btn-block btn-primary', :'data-toggle' => 'modal' do
           New general broadcast

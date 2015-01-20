@@ -1,5 +1,5 @@
-- if any_sites?
-  .col-md-3.animated.fadeInLeft.main-side= render 'side'
+- if @sites.present?
+  .col-md-3.animated.fadeInLeft.main-side= render 'side', sites: @sites
 .animated.fadeInUp.main-index{class: any_sites? ? 'col-md-9' : ''}
   .welcome
     %h2

@@ -7,7 +7,6 @@ describe SitesController, type: :controller do
     it { expect(   get: '/'            ).to route_to(controller: 'sites', action: 'index')            }
 
     it { expect(   get: '/sites'       ).to route_to(controller: 'sites', action: 'index')            }
-    it { expect(   get: '/sites/new'   ).to route_to(controller: 'sites', action: 'new')              }
     it { expect(  post: '/sites'       ).to route_to(controller: 'sites', action: 'create')           }
     it { expect(   get: '/sites/1'     ).to route_to(controller: 'sites', action: 'show',    id: '1') }
     it { expect(   get: '/sites/1/edit').to route_to(controller: 'sites', action: 'edit',    id: '1') }

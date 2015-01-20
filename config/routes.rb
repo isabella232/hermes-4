@@ -5,7 +5,7 @@ Hermes::Application.routes.draw do
 
   post '/sites/general_broadcast' => 'sites#general_broadcast', as: :general_broadcast
 
-  resources :sites do
+  resources :sites, except: %w( new ) do
     resources :tips
     resources :tutorials do
       resources :tips

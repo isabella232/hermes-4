@@ -11,7 +11,7 @@ describe SitesController do
     it 'works' do
       get :index
 
-      expect(assigns(:site)).to be_a_new Site
+      expect(assigns(:sites)).to have(1).items
     end
   end
 
@@ -25,15 +25,15 @@ describe SitesController do
 
   describe '#new' do
     it 'works' do
-      get :new
-
-      expect(assigns(:site)).to be_a_new Site
+      expect{
+        get :new
+      }.to raise_error
     end
   end
 
   describe '#create' do
     it 'works' do
-      post :create, site: FactoryGirl.build(:site, user: nil).attributes
+      post :create, site: FactoryGirl.build(:site, user: nil).attributes, format: :js
 
       new_site = assigns(:site)
 
@@ -43,33 +43,13 @@ describe SitesController do
 
     it 'increases the number of sites' do
       expect{
-        post :create, site: FactoryGirl.build(:site, user: nil).attributes
+        post :create, site: FactoryGirl.build(:site, user: nil).attributes, format: :js
       }.to change(Site, :count).by(1)
-    end
-
-    it 'redirects on http' do
-      post :create, site: FactoryGirl.build(:site, user: nil).attributes
-
-      expect(response).to redirect_to(site_path(assigns(:site)))
-    end
-
-    it 'rennders in js' do
-      post :create, site: FactoryGirl.build(:site, user: nil).attributes, format: :js
-
-      expect(response).to have_http_status(:ok)
     end
   end
 
   describe '#edit' do
-    it 'html' do
-      get :edit, id: site.id
-
-      expect(assigns(:site)).to eq(site)
-
-      expect(response).to render_template(:edit)
-    end
-
-    it 'js' do
+    it 'works' do
       xhr :get, :edit, id: site.id, format: :js
 
       expect(assigns(:site)).to eq(site)

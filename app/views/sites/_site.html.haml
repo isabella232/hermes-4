@@ -1,22 +1,17 @@
 %li.list-group-item
   %h4.list-group-item-heading
-    = link_to site_path(site), id: dom_id(site) do
-      = site.name
+    = link_to site.name, site, id: dom_id(site)
   %p.small.courier= site.url
   %p.list-group-item-text
     %span.small
-      = link_to site_tips_path(site) do
-        = pluralize(site.tips.count, 'tip')
-    = link_to new_site_tip_path(site), class: 'btn btn-primary btn-xs btn-circular' do
-      new
+      = link_to pluralize(site.tips.count, 'tip'), site_tips_path(site)
+    = link_to 'new', new_site_tip_path(site), class: 'btn btn-primary btn-xs btn-circular'
     &nbsp;
     %span.small
-      = link_to site_tutorials_path(site) do
-        = pluralize(site.tutorials.count, 'tutorial')
-    = link_to new_site_tutorial_path(site), class: 'btn btn-primary btn-xs' do
-      new
+      = link_to pluralize(site.tutorials.count, 'tutorial'), site_tutorials_path(site)
+    = link_to 'new', new_site_tutorial_path(site), class: 'btn btn-primary btn-xs'
   .list-group-item-actions
     = link_to edit_site_path(site), remote: true, class: 'btn btn-xs btn-primary' do
       %i.fa.fa-pencil
-    = link_to site_path(site), method: :delete, remote: true, class: 'btn btn-xs btn-danger', :'data-confirm' => 'This action will remove your site'  do
+    = link_to site, method: :delete, remote: true, class: 'btn btn-xs btn-danger', :'data-confirm' => 'This action will remove your site'  do
       %i.fa.fa-trash

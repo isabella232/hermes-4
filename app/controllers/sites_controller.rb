@@ -4,38 +4,32 @@
 class SitesController < ApplicationController
   include Authenticated
 
-  before_filter :find_site, :only => %w( show edit update destroy )
+  load_and_authorize_resource except: %w( new )
 
   def index
-    @site = Site.new
   end
 
   def show
   end
 
-  def new
-    @site = Site.new
-  end
-
   def create
-    @site = current_user.sites.new(sites_param)
+    @site.attributes = site_params
+    @site.user_id = current_user.id
     @site.save
 
     respond_to do |format|
-      format.html { redirect_to site_path(@site) }
       format.js
     end
   end
 
   def edit
     respond_to do |format|
-      format.html
       format.js
     end
   end
 
   def update
-    @site.update_attributes(sites_param)
+    @site.update_attributes(site_params)
 
     respond_to do |format|
       format.js
@@ -50,7 +44,7 @@ class SitesController < ApplicationController
   end
 
   def general_broadcast
-    @sites = Site.all
+    @sites = Site.accessible_by(current_ability)
     @saved = true
     @sites.each do |site|
       tip = site.tips.new(tip_params)
@@ -62,7 +56,7 @@ class SitesController < ApplicationController
   end
 
   protected
-    def sites_param
+    def site_params
       params.require(:site).permit(:name, :hostname, :description, :protocol)
     end
 
@@ -71,9 +65,5 @@ class SitesController < ApplicationController
         :title, :content, :published_at, :path,
         :unpublished_at, :selector, :position, :redisplay
       )
-    end
-
-    def find_site
-      @site = Site.find(params[:id])
     end
 end
