@@ -45,11 +45,8 @@ class SitesController < ApplicationController
 
   def general_broadcast
     @sites = Site.accessible_by(current_ability)
-    @saved = true
-    @sites.each do |site|
-      tip = site.tips.new(tip_params)
-      @saved = false unless tip.save
-    end
+    @saved = @sites.create_tips(tip_params)
+
     respond_to do |format|
       format.js
     end
