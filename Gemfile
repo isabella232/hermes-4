@@ -40,7 +40,7 @@ group :development, :test do
   gem 'email_spec'
   gem 'shoulda-matchers', require: false
   gem 'rspec-collection_matchers'
-
+  gem "spring-commands-rspec"
 end
 
 group :development do
