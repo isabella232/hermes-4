@@ -13,16 +13,16 @@ class NestedTipsController < ApplicationController
     if @tips.blank?
       redirect_to [:new, _obj, :tip]
     else
-      render template: 'tips/index'
+      render template: 'nested_tips/index'
     end
   end
 
   def show
-    render template: 'tips/show'
+    render template: 'nested_tips/show'
   end
 
   def new
-    render template: 'tips/new'
+    render template: 'nested_tips/new'
   end
 
   def create
@@ -33,12 +33,12 @@ class NestedTipsController < ApplicationController
       redirect_to [_obj, :tips]
     else
       flash.now[:error] = 'There was an error saving your message.'
-      render template: 'tips/new'
+      render template: 'nested_tips/new'
     end
   end
 
   def edit
-    render template: 'tips/edit'
+    render template: 'nested_tips/edit'
   end
 
   def update
@@ -46,7 +46,7 @@ class NestedTipsController < ApplicationController
       redirect_to [_obj, :tips], :notice => "Message '#{@tip.title}' saved"
     else
       flash.now[:error] = 'There was an error updating your message.'
-      render template: 'tips/edit'
+      render template: 'nested_tips/edit'
     end
   end
 
@@ -54,7 +54,7 @@ class NestedTipsController < ApplicationController
     @tip.destroy
 
     respond_to do |format|
-      format.js { render template: 'tips/destroy' }
+      format.js { render template: 'nested_tips/destroy' }
     end
   end
 

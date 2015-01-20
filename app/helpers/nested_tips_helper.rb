@@ -1,4 +1,4 @@
-module TipsHelper
+module NestedTipsHelper
 
   def edit_tip_link(tip)
     @tutorial ? edit_tutorial_tip_path(@tutorial, tip) : edit_site_tip_path(@site, tip)

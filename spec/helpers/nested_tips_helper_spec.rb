@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe TipsHelper do
+describe NestedTipsHelper do
   let!(:site) { FactoryGirl.create :site }
   let!(:tutorial) { FactoryGirl.create :tutorial, site: site }
   let!(:tip) { FactoryGirl.create :tip, tippable: tutorial, tippable_type: 'Tutorial', path: '/' }
