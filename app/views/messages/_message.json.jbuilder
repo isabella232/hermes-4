@@ -4,4 +4,4 @@
 
 key = message.class.model_name.param_key.intern
 json.partial! key.to_s, key => message
-json.url dismiss_message_url(key, message.id)
+json.url dismiss_message_url(message.id, key)

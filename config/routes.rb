@@ -16,13 +16,14 @@ Hermes::Application.routes.draw do
 
   put '/tips/:id/position'  => 'tips#position', as: :tip_position
 
-  # tutorials (from client)
-  get "/messages/tutorials.js"                   => "messages#tutorials"
-  get "/messages/tutorials/:tutorial_id.js"      => "messages#tutorial"
-  get "/message/tutorial/:tutorial_id/:type/:id" => "messages#show_tutorial_message", as: :message_tutorial
+  resources :messages, only: %w( index show ) do
+    collection do
+      get "tutorials"              => "messages#tutorials"
+      get "tutorials/:tutorial_id" => "messages#tutorial"
+    end
 
-  # messages (from client)
-  get "/messages.js"        => "messages#index"
-  get "/messages/:type/:id" => "messages#update", as: :dismiss_message
-  get "/message/:type/:id"  => "messages#show",   as: :message
+    member do
+      get ":type" => "messages#update", as: :dismiss
+    end
+  end
 end

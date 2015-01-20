@@ -83,28 +83,30 @@ describe MessagesController do
   end
 
   describe '#show' do
-    requires_a_callback_param { |opts={}| get :show, opts.merge(type: 'Tutorial', id: tutorial.id, format: :json) }
-    requires_a_site           { |opts={}| get :show, opts.merge(type: 'Tutorial', id: tutorial.id, format: :json) }
-    requires_a_message        { |opts={}| get :show, opts.merge(format: :json) }
-
-    it 'works' do
-      get :show, callback: 'http://foo.bar', site_ref: site.hostname, type: 'tutorial', id: tutorial.id, format: :json
-
-      expect(response).to render_template('messages/_message')
-    end
-  end
-
-  describe '#show_tutorial_message' do
     let!(:tip) { FactoryGirl.create(:tip, tippable: tutorial) }
 
-    requires_a_callback_param { |opts={}| get :show_tutorial_message, opts.merge(tutorial_id: tutorial.id, type: 'Tutorial', id: tutorial.id, format: :json) }
-    requires_a_site           { |opts={}| get :show_tutorial_message, opts.merge(tutorial_id: tutorial.id, type: 'Tutorial', id: tutorial.id, format: :json) }
-    requires_a_message        { |opts={}| get :show_tutorial_message, opts.merge(tutorial_id: tutorial.id, format: :json) }
+    context 'without tutorial' do
+      requires_a_callback_param { |opts={}| get :show, opts.merge(type: 'Tutorial', id: tutorial.id, format: :json) }
+      requires_a_site           { |opts={}| get :show, opts.merge(type: 'Tutorial', id: tutorial.id, format: :json) }
+      requires_a_message        { |opts={}| get :show, opts.merge(format: :json) }
 
-    it 'works' do
-      get :show, callback: 'http://foo.bar', site_ref: site.hostname, type: 'tip', id: tip.id, format: :json
+      it 'works' do
+        get :show, callback: 'http://foo.bar', site_ref: site.hostname, type: 'tutorial', id: tutorial.id, format: :json
 
-      expect(response).to render_template('messages/_message')
+        expect(response).to render_template('messages/_message')
+      end
+    end
+
+    context 'with tutorial' do
+      requires_a_callback_param { |opts={}| get :show, opts.merge(tutorial_id: tutorial.id, type: 'Tutorial', id: tutorial.id, format: :json) }
+      requires_a_site           { |opts={}| get :show, opts.merge(tutorial_id: tutorial.id, type: 'Tutorial', id: tutorial.id, format: :json) }
+      requires_a_message        { |opts={}| get :show, opts.merge(tutorial_id: tutorial.id, format: :json) }
+
+      it 'works' do
+        get :show, callback: 'http://foo.bar', site_ref: site.hostname, type: 'tip', id: tip.id, format: :json
+
+        expect(response).to render_template('messages/_message')
+      end
     end
   end
 

@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
 
   before_filter :require_callback
   before_filter :find_site
-  before_filter :find_message, only: %w( show update show_tutorial_message )
+  before_filter :find_message, only: %w( show update )
 
   skip_before_action :verify_authenticity_token
 
@@ -56,15 +56,6 @@ class MessagesController < ApplicationController
   # partial in the backend interface.
   #
   def show
-    json = render_to_string partial: 'messages/message', object: @message
-    render json: json, callback: @callback
-  end
-
-  # Render a single tutorial tip, bypassing the State machinery, for preview purposes.
-  # Used by hermes.js in the Preview class, linked from the tips/_tip
-  # partial in the backend interface.
-  #
-  def show_tutorial_message
     json = render_to_string partial: 'messages/message', object: @message
     render json: json, callback: @callback
   end

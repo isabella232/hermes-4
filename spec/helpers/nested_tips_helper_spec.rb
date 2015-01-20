@@ -58,10 +58,10 @@ describe NestedTipsHelper do
       expect(helper.preview_tip_link(tip)).to include('class="btn btn-default btn-xs ext"')
       expect(helper.preview_tip_link(tip)).to include('class="fa fa-eye"')
 
-      expect(helper.preview_tip_link(tip)).to include("data-messagepath=\"#{message_path('tip', tip.id)}\"")
+      expect(helper.preview_tip_link(tip)).to include("data-messagepath=\"#{message_path(tip.id, type: 'tip')}\"")
 
       assign(:tutorial, tutorial)
-      expect(helper.preview_tip_link(tip)).to include("data-messagepath=\"#{message_tutorial_path(tutorial.id, 'tip', tip.id)}\"")
+      expect(helper.preview_tip_link(tip)).to include("data-messagepath=\"#{ERB::Util.html_escape message_path(tip.id, type: 'tip', tutorial_id: tutorial.id)}\"")
     end
   end
 
