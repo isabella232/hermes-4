@@ -1,28 +1,27 @@
 class TutorialsController < ApplicationController
   include Authenticated
 
-  before_filter :find_site
-  before_filter :find_tutorial, only: %w( show edit update destroy )
+  load_and_authorize_resource :site
+  load_and_authorize_resource :tutorial, :through => :site
+
   before_filter :generate_xd_token, only: %w( new edit )
 
   def index
-    @tutorials = @site.tutorials.order('created_at DESC')
+    @tutorials = @tutorials.order('created_at DESC')
 
-    if @tutorials.blank?
-      redirect_to new_site_tutorial_path(@site)
-    end
+    redirect_to new_site_tutorial_path(@site) if @tutorials.blank?
   end
 
   def show
-    @tips = Tip.where(tippable_id: @tutorial.id, tippable_type: 'Tutorial').sort_by_row_order
+    @tips = @tutorial.tips.sort_by_row_order
   end
 
   def new
-    @tutorial = @site.tutorials.new
   end
 
   def create
-    @tutorial = @site.tutorials.new(tutorial_params)
+    @tutorial.attributes = tutorial_params
+    @tutorial.site = @site
 
     if @tutorial.save
       redirect_to site_tutorial_path(@site, @tutorial)
@@ -38,12 +37,8 @@ class TutorialsController < ApplicationController
   def update
     if @tutorial.update_attributes(tutorial_params)
       # update also tips that don't have path
-      @tutorial.tips.each do |tip|
-        if (tip.path.blank? || tip.path == '/') && tip.site_host_ref.blank?
-          tip.path = @tutorial.path
-          tip.save!
-        end
-      end
+      @tutorial.tips.update_path(@tutorial.path)
+
       redirect_to site_tutorial_path(@site, @tutorial), :notice => 'tutorial saved'
     else
       render :edit
@@ -58,14 +53,6 @@ class TutorialsController < ApplicationController
   end
 
   protected
-
-    def find_site
-      @site = Site.find(params[:site_id])
-    end
-
-    def find_tutorial
-      @tutorial = @site.tutorials.find(params[:id])
-    end
 
     def tutorial_params
       params.

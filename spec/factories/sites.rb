@@ -8,5 +8,4 @@ FactoryGirl.define do
     verified_at { 10.days.ago }
     protocol "http"
   end
-
 end

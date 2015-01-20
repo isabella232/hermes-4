@@ -10,6 +10,8 @@ describe Tip do
 
   subject { FactoryGirl.create(:tip_with_tutorial) }
 
+  let!(:tutorial) { subject.tippable }
+
   has_many_states
 
   it { should belong_to(:tippable).inverse_of(:tips) }
@@ -80,6 +82,38 @@ describe Tip do
         expect(order.first.to_sql).to match(/"tips"\."row_order" ASC/i)
         expect(order.last).to         match(/case selector when '' then 0 else 1 end/i)
       end
+    end
+  end
+
+  describe '.update_path' do
+    it 'works' do
+      FactoryGirl.create_list :tip, 4, tippable: tutorial, path: '', site_host_ref: ''
+
+      expect{
+        Tip.update_path '/foo'
+      }.to change{
+        Tip.where(path: '', site_host_ref: '').count
+      }.from(4).to(0)
+    end
+
+    it 'alters tips with path' do
+      FactoryGirl.create_list :tip, 4, tippable: tutorial, path: '/foo', site_host_ref: ''
+
+      expect{
+        Tip.update_path '/bar'
+      }.not_to change{
+        Tip.where(path: '/foo', site_host_ref: '').count
+      }.from(4)
+    end
+
+    it 'alters tips with site_host_ref' do
+      FactoryGirl.create_list :tip, 4, tippable: tutorial, path: '', site_host_ref: 'host'
+
+      expect{
+        Tip.update_path '/foo'
+      }.not_to change{
+        Tip.where(path: '', site_host_ref: 'host').count
+      }.from(4)
     end
   end
 

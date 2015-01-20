@@ -34,6 +34,14 @@ class Tip < ActiveRecord::Base
 
   scope :sorted, -> { sort_by_row_order.broadcasts_first }
 
+  def self.update_path path
+    self.all.map do |t|
+      if (t.path.blank? || t.path == '/') && t.site_host_ref.blank?
+        t.update_attribute :path, path
+      end
+    end
+  end
+
   def position=(pos)
     self.row_order_position = pos
   end

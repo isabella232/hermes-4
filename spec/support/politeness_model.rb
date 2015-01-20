@@ -19,7 +19,7 @@ module PolitenessModel
         model = FactoryGirl.create described_class.name.underscore.to_sym, :noselector, :site, site: site
         state = FactoryGirl.create :state, message: model, remote_user: 'foo'
 
-        expect(described_class.respecting('foo')).to eq [model]
+        expect(described_class.respecting('foo')).to include model
       end
     end
   end
