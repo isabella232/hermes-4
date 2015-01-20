@@ -37,7 +37,25 @@ describe Site do
     end
   end
 
-  describe '.url' do
+  describe '.create_tips' do
+    before do 
+      FactoryGirl.create_list :site, 4, user: subject.user
+    end
+
+    it 'works' do
+      expect{
+        Site.create_tips(FactoryGirl.build(:tip).attributes)
+      }.to change(Tip, :count).by(5)
+    end
+
+    it 'fails with wrong parameters' do
+      expect{
+        Site.create_tips({})
+      }.not_to change(Tip, :count)
+    end
+  end
+
+  describe '#url' do
     it 'works' do
       expect(subject.url).to eq("#{subject.protocol}://#{subject.hostname}")
     end

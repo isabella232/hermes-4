@@ -45,7 +45,7 @@ class SitesController < ApplicationController
 
   def general_broadcast
     @sites = Site.accessible_by(current_ability)
-    @saved = @sites.create_tips(tip_params)
+    @saved = @sites.create_tips(tip_params).map(&:persisted?).all?
 
     respond_to do |format|
       format.js

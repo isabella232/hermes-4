@@ -15,6 +15,10 @@ class Site < ActiveRecord::Base
 
   scope :by_user, ->(user) { where(user_id: user.id) }
 
+  def self.create_tips(params)
+    self.all.map { |s| s.tips.create params }
+  end
+
   def url
     [self.protocol, '://', self.hostname].join()
   end
