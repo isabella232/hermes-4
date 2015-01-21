@@ -9,7 +9,7 @@
     .input-group-addon.input-group-addon-text.input-addon-current-path{class: f.object.site_host_ref.present? ? 'hide' : ''}= @site.url
     - if @tutorial
       .input-group-addon.input-group-addon-text.input-addon-abs-path{class: f.object.site_host_ref.present? ? '' : 'hide'}= site_path_select(f)
-    = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent', value: f.object.persisted? ? f.object.path : @tutorial ? @tutorial.path : f.object.path
+    = f.text_field :path, :'data-connect-path' => '#ext-connect-link', class: 'form-control ext-path input-transparent', value: f.object.persisted? ? f.object.path : @tutorial.path.presence || f.object.path
   %p.form-control-help.text-right
     - if @tutorial
       %b Warning: 
@@ -56,7 +56,7 @@
       %label.btn.btn-default.ext-connect{class: f.object.selector.blank? ? '' : 'active'}
         %input{"data-output" => "#tip-connect", :name => "broadcast", :type => "radio", checked: f.object.selector.present?}
         Bound to item in the page
-        = link_to 'Connect', [f.object.site_host_ref.blank? ? @site.url : f.object.site_host_ref, @tutorial ? @tutorial.path : f.object.path].join, :id => 'ext-connect-link', class: 'hide', 'target' => '_blank', :'data-hostname' => @site.url, :'data-token' => @connector_token, :'data-output' => '#tip-connected'
+        = link_to 'Connect', [f.object.site_host_ref.presence || @site.url, f.object.path.presence || @tutorial.path].join, :id => 'ext-connect-link', class: 'hide', 'target' => '_blank', :'data-hostname' => @site.url, :'data-token' => @connector_token, :'data-output' => '#tip-connected'
         %span#tip-connected{:class => f.object.selector.blank? ? 'hide' : ''}
           %i.fa.fa-check
           Connected!
