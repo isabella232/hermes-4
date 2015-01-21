@@ -280,22 +280,13 @@ Node.prototype.nodeNameInCorrectCase = function(){
       if (!this.validNode(node))
         return null;
 
-      // get the node id
-      var id = node.getAttribute("id"),
-          nodeName = node.nodeNameInCorrectCase(),
+      var nodeName = node.nodeNameInCorrectCase(),
           parent = node.parentNode;
 
       if (optimized) {
-        if (id) {
-          return new this.DOMNodePathStep(this.idSelector(id), true);
-        }
         if (nodeName === "body" || nodeName === "head" || nodeName === "html") {
           return new this.DOMNodePathStep(nodeName, true);
         }
-      }
-
-      if (id) {
-        return new this.DOMNodePathStep(nodeName + this.idSelector(id), true);
       }
 
       if (!parent || parent.nodeType === Node.DOCUMENT_NODE) {
@@ -348,7 +339,7 @@ Node.prototype.nodeNameInCorrectCase = function(){
       }
 
       var result = nodeName;
-      if (isTargetNode && nodeName === "input" && node.getAttribute("type") && !node.getAttribute("id") && !node.getAttribute("class"))
+      if (isTargetNode && nodeName === "input" && node.getAttribute("type") && !node.getAttribute("class"))
         result += "[type=\"" + node.getAttribute("type") + "\"]";
       if (needsNthChild) {
         result += ":nth-child(" + (ownIndex + 1) + ")";
