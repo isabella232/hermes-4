@@ -13,6 +13,8 @@ class MessagesController < ApplicationController
   # Used by hermes.js in the GeneralMessaging class
   #
   def index
+    head :not_found and return unless @site
+
     remote_user = (cookies['__hermes_user'] ||= State.ephemeral_user)
     @messages = @site.tips.published.sorted.within(@path).respecting(remote_user)
 
@@ -94,7 +96,7 @@ class MessagesController < ApplicationController
       path = request.referer.include?(full_site_ref) ? request.referer.sub!(full_site_ref, '') : @source.path
       @path = path == '' ? '/' : path.split('?')[0]
 
-      head :bad_request unless @site = Site.where(hostname: params[:site_ref]).first
+      @site = Site.where(hostname: params[:site_ref]).first
 
     rescue URI::InvalidURIError
       head :bad_request
