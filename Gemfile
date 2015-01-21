@@ -41,6 +41,11 @@ group :development, :test do
   gem 'shoulda-matchers', require: false
   gem 'rspec-collection_matchers'
   gem "spring-commands-rspec"
+
+  gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'capybara-screenshot'
+  gem 'poltergeist'
 end
 
 group :development do

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe MessagesController do
-  extend MessagesControllerCallbacks
+  extend Controllers::MessagesControllerCallbacks
 
   let!(:remote_user) { 'foo' }
   let!(:site)        { FactoryGirl.create :site }

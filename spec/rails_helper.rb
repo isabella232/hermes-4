@@ -10,6 +10,8 @@ require 'email_spec'
 require 'database_cleaner'
 require 'ffaker'
 require 'devise'
+require 'capybara/poltergeist'
+require 'capybara-screenshot/rspec'
 
 if RUBY_VERSION.to_f < 2.0
   require 'debugger'
@@ -21,12 +23,12 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 ActiveRecord::Migration.maintain_test_schema!
 
+Capybara.javascript_driver = :poltergeist
+Capybara::Screenshot.autosave_on_failure = true
+
 RSpec.configure do |config|
   config.include(EmailSpec::Helpers)
   config.include(EmailSpec::Matchers)
-
-  config.include Devise::TestHelpers, type: :controller
-  config.extend  FakeAuthentication,  type: :controller
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

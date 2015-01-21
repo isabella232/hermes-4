@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 describe Tutorial do
-  extend PublicableModel
-  extend PolitenessModel
-  extend PathScopingModel
-  extend PathValidationsModel
+  extend Models::Publicable
+  extend Models::Politeness
+  extend Models::PathScoping
+  extend Models::PathValidations
 
   subject { FactoryGirl.create(:tutorial) }
 
