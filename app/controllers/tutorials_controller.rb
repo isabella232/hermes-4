@@ -63,7 +63,7 @@ class TutorialsController < ApplicationController
                :overlay, :progress_bar, :path_re)
     end
 
-     This is a token to passed between the #tip-connector and the
+    # This is a token to passed between the #tip-connector and the
     # target web site, to enable the authoring component in it and
     # to authorize communication.
     #
