@@ -1,7 +1,8 @@
 class NestedTipsController < ApplicationController
   include Authenticated
-  include ConnectorToken
   include TipsParams
+
+  before_filter :generate_xd_token, only: %w( new edit )
 
   class << self
     attr_accessor :nested_object
@@ -61,6 +62,17 @@ class NestedTipsController < ApplicationController
   protected
     def _obj
       instance_variable_get self.class.nested_object
+    end
+
+    # This is a token to passed between the #tip-connector and the
+    # target web site, to enable the authoring component in it and
+    # to authorize communication.
+    #
+    # TODO: actually use a random token and verify it - for now it
+    # is only used to pass the opener scheme to postMessage.
+    #
+    def generate_xd_token
+      @connector_token = "authoring"
     end
 
 end

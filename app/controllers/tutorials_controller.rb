@@ -1,9 +1,10 @@
 class TutorialsController < ApplicationController
   include Authenticated
-  include ConnectorToken
 
   load_and_authorize_resource :site
   load_and_authorize_resource :tutorial, :through => :site
+
+  before_filter :generate_xd_token, only: %w( new edit )
 
   def index
     @tutorials = @tutorials.order('created_at DESC')
@@ -60,6 +61,17 @@ class TutorialsController < ApplicationController
                :unpublished_at, :path, :position,
                :selector, :welcome_message,
                :overlay, :progress_bar, :path_re)
+    end
+
+     This is a token to passed between the #tip-connector and the
+    # target web site, to enable the authoring component in it and
+    # to authorize communication.
+    #
+    # TODO: actually use a random token and verify it - for now it
+    # is only used to pass the opener scheme to postMessage.
+    #
+    def generate_xd_token
+      @connector_token = "authoring-tutorial"
     end
 
 end

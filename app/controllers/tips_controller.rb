@@ -1,6 +1,5 @@
 class TipsController < ApplicationController
   include Authenticated
-  include ConnectorToken
 
   load_and_authorize_resource :tip, only: :position
 
