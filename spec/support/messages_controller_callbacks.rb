@@ -53,6 +53,8 @@ module MessagesControllerCallbacks
     end
 
     it 'fails with wrong schema' do
+      opts.merge!(site_ref: site.hostname)
+
       request.env["HTTP_REFERER"] = 'ftp://example.com'
 
       instance_exec(opts, &block)
@@ -64,7 +66,7 @@ module MessagesControllerCallbacks
 
         instance_exec(opts, &block)
 
-        expect(response).to have_http_status(:bad_request)
+        expect(response).not_to have_http_status(:bad_request)
       end
     end
 

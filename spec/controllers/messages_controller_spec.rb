@@ -86,24 +86,24 @@ describe MessagesController do
     let!(:tip) { FactoryGirl.create(:tip, tippable: tutorial) }
 
     context 'without tutorial' do
-      requires_a_callback_param { |opts={}| get :show, opts.merge(type: 'Tutorial', id: tutorial.id, format: :json) }
-      requires_a_site           { |opts={}| get :show, opts.merge(type: 'Tutorial', id: tutorial.id, format: :json) }
-      requires_a_message        { |opts={}| get :show, opts.merge(format: :json) }
+      requires_a_callback_param { |opts={}| get :show, opts.merge(type: 'Tutorial', id: tutorial.id, format: :js) }
+      requires_a_site           { |opts={}| get :show, opts.merge(type: 'Tutorial', id: tutorial.id, format: :js) }
+      requires_a_message        { |opts={}| get :show, opts.merge(format: :js) }
 
       it 'works' do
-        get :show, callback: 'http://foo.bar', site_ref: site.hostname, type: 'tutorial', id: tutorial.id, format: :json
+        get :show, callback: 'http://foo.bar', site_ref: site.hostname, type: 'tutorial', id: tutorial.id, format: :js
 
         expect(response).to render_template('messages/_message')
       end
     end
 
     context 'with tutorial' do
-      requires_a_callback_param { |opts={}| get :show, opts.merge(tutorial_id: tutorial.id, type: 'Tutorial', id: tutorial.id, format: :json) }
-      requires_a_site           { |opts={}| get :show, opts.merge(tutorial_id: tutorial.id, type: 'Tutorial', id: tutorial.id, format: :json) }
-      requires_a_message        { |opts={}| get :show, opts.merge(tutorial_id: tutorial.id, format: :json) }
+      requires_a_callback_param { |opts={}| get :show, opts.merge(tutorial_id: tutorial.id, type: 'Tutorial', id: tutorial.id, format: :js) }
+      requires_a_site           { |opts={}| get :show, opts.merge(tutorial_id: tutorial.id, type: 'Tutorial', id: tutorial.id, format: :js) }
+      requires_a_message        { |opts={}| get :show, opts.merge(tutorial_id: tutorial.id, format: :js) }
 
       it 'works' do
-        get :show, callback: 'http://foo.bar', site_ref: site.hostname, type: 'tip', id: tip.id, format: :json
+        get :show, callback: 'http://foo.bar', site_ref: site.hostname, type: 'tip', id: tip.id, format: :js
 
         expect(response).to render_template('messages/_message')
       end
@@ -113,12 +113,12 @@ describe MessagesController do
   describe '#update' do
     let!(:state) { FactoryGirl.create :state, message: tutorial, remote_user: remote_user }
 
-    requires_a_callback_param { |opts={}| get :update, opts.merge(type: 'Tutorial', id: tutorial.id, format: :json) }
-    requires_a_site           { |opts={}| get :update, opts.merge(type: 'Tutorial', id: tutorial.id, format: :json) }
+    requires_a_callback_param { |opts={}| get :update, opts.merge(type: 'Tutorial', id: tutorial.id, format: :js) }
+    requires_a_site           { |opts={}| get :update, opts.merge(type: 'Tutorial', id: tutorial.id, format: :js) }
     requires_a_message        { |opts={}| get :update, opts }
 
     it 'works' do
-      get :update, callback: 'http://foo.bar', site_ref: site.hostname, type: 'Tutorial', id: tutorial.id, format: :json
+      get :update, callback: 'http://foo.bar', site_ref: site.hostname, type: 'Tutorial', id: tutorial.id, format: :js
 
       expect(response).to have_http_status(:created)
     end
