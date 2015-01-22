@@ -30,22 +30,27 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-group :development, :test do
-  gem 'rspec-rails', '~> 3.0'
-  gem 'guard-rspec', require: false
-  gem 'factory_girl_rails'
-  gem 'fuubar'
-  gem 'ffaker'
+group :test do
+  gem 'simplecov', require: false
   gem 'database_cleaner'
-  gem 'email_spec'
-  gem 'shoulda-matchers', require: false
-  gem 'rspec-collection_matchers'
-  gem "spring-commands-rspec"
-
+  gem 'factory_girl_rails'
   gem 'capybara'
-  gem 'capybara-webkit'
   gem 'capybara-screenshot'
   gem 'poltergeist'
+  gem 'show_me_the_cookies'
+  gem 'shoulda-matchers', require: false
+  gem 'rspec-collection_matchers'
+  gem 'vcr'
+  gem 'fakeweb'
+end
+
+group :development, :test do
+  gem 'rspec-rails', '~> 3.1'
+  gem 'guard-rspec', require: false
+  gem 'fuubar'
+  gem 'ffaker'
+  gem 'email_spec'
+  gem "spring-commands-rspec"
 end
 
 group :development do

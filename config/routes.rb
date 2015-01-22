@@ -19,7 +19,7 @@ Hermes::Application.routes.draw do
   resources :messages, only: %w( index show ) do
     collection do
       get "tutorials"              => "messages#tutorials"
-      get "tutorials/:tutorial_id" => "messages#tutorial"
+      get "tutorials/:tutorial_id" => "messages#tutorial", as: 'tutorial'
     end
 
     member do

@@ -138,11 +138,15 @@
     **/
 
   App.prototype._findAndInstantiateViews = function() {
-    $('[data-view]:not([data-instantiated=true])').each(function(i, el){
-      var viewName = $(el).data('view').toViewTitle();
-      $(el).attr('data-instantiated', true);
-      this.components[viewName] = new ns[viewName]($(el));
-    }.bind(this))
+    var views = $('[data-view]:not([data-instantiated=true])');
+
+    if(views > 0) {
+      views.each(function(i, el){
+        var viewName = $(el).data('view').toViewTitle();
+        $(el).attr('data-instantiated', true);
+        this.components[viewName] = new ns[viewName]($(el));
+      }.bind(this));
+    }
   }
 
 

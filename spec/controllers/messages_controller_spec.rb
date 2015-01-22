@@ -85,7 +85,7 @@ describe MessagesController do
   describe '#show' do
     let!(:tip) { FactoryGirl.create(:tip, tippable: tutorial) }
 
-    context 'without tutorial' do
+    context 'with tutorial' do
       requires_a_callback_param { |opts={}| get :show, opts.merge(type: 'Tutorial', id: tutorial.id, format: :js) }
       requires_a_site           { |opts={}| get :show, opts.merge(type: 'Tutorial', id: tutorial.id, format: :js) }
       requires_a_message        { |opts={}| get :show, opts.merge(format: :js) }
@@ -97,7 +97,7 @@ describe MessagesController do
       end
     end
 
-    context 'with tutorial' do
+    context 'without tutorial' do
       requires_a_callback_param { |opts={}| get :show, opts.merge(tutorial_id: tutorial.id, type: 'Tutorial', id: tutorial.id, format: :js) }
       requires_a_site           { |opts={}| get :show, opts.merge(tutorial_id: tutorial.id, type: 'Tutorial', id: tutorial.id, format: :js) }
       requires_a_message        { |opts={}| get :show, opts.merge(tutorial_id: tutorial.id, format: :js) }

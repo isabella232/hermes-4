@@ -11,8 +11,9 @@ describe MessagesController, type: :controller do
   end
 
   describe 'helpers' do
-    it { expect(dismiss_message_path(1, 'type')).to  eq('/messages/1/type')    }
-    it { expect(tutorials_messages_path).to          eq('/messages/tutorials') }
-    it { expect(message_path(1)).to                  eq('/messages/1')         }
+    it { expect(dismiss_message_path(1, 'type')).to  eq('/messages/1/type')       }
+    it { expect(tutorials_messages_path).to          eq('/messages/tutorials')    }
+    it { expect(tutorial_messages_path(1)).to        eq('/messages/tutorials/1') }
+    it { expect(message_path(1)).to                  eq('/messages/1')            }
   end
 end
