@@ -280,8 +280,6 @@ GEM
     shellany (0.0.1)
     shoulda-matchers (2.7.0)
       activesupport (>= 3.0.0)
-    show_me_the_cookies (2.5.0)
-      capybara (~> 2.0)
     simplecov (0.9.1)
       docile (~> 1.1.0)
       multi_json (~> 1.0)
@@ -376,7 +374,6 @@ DEPENDENCIES
   sanitize-rails
   sdoc
   shoulda-matchers
-  show_me_the_cookies
   simplecov
   spring-commands-rspec
   therubyracer

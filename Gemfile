@@ -37,7 +37,6 @@ group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'poltergeist'
-  gem 'show_me_the_cookies'
   gem 'shoulda-matchers', require: false
   gem 'rspec-collection_matchers'
   gem 'vcr'

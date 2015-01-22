@@ -1,6 +1,5 @@
 module Features
   RSpec.configure do |config|
-    config.include Features::SessionHelpers, type: :feature
-    config.include ShowMeTheCookies,         type: :feature
+    config.include SessionHelpers, type: :feature
   end
 end
