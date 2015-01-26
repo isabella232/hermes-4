@@ -140,7 +140,7 @@
   App.prototype._findAndInstantiateViews = function() {
     var views = $('[data-view]:not([data-instantiated=true])');
 
-    if(views > 0) {
+    if(views.size() > 0) {
       views.each(function(i, el){
         var viewName = $(el).data('view').toViewTitle();
         $(el).attr('data-instantiated', true);
