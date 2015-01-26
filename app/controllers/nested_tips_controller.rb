@@ -9,7 +9,7 @@ class NestedTipsController < ApplicationController
   end
 
   def index
-    @tips = @tips.sort_by_row_order
+    @tips = @tips.sort_by_row_order if @tips.present?
 
     if @tips.blank?
       redirect_to [:new, _obj, :tip]
@@ -73,6 +73,18 @@ class NestedTipsController < ApplicationController
     #
     def generate_xd_token
       @connector_token = "authoring"
+    end
+
+    def load_and_authorize_tip
+      @tip = if id = params[:id].presence
+        _obj.tips.accessible_by(current_ability).find(params[:id])
+       else
+         _obj.tips.new
+       end
+    end
+
+    def load_and_authorize_tips
+      @tips = _obj.tips.accessible_by(current_ability)
     end
 
 end

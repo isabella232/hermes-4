@@ -5,7 +5,7 @@ require 'rails_helper'
 describe SiteTipsController do
   login
 
-  let!(:site) { FactoryGirl.create :site }
+  let!(:site) { FactoryGirl.create :site, user: login_user }
   let!(:tip)  { FactoryGirl.create :tip, tippable: site }
 
   describe '#index' do
@@ -20,7 +20,7 @@ describe SiteTipsController do
     end
 
     it 'redirects' do
-      new_site = FactoryGirl.create :site
+      new_site = FactoryGirl.create :site, user: login_user
 
       get :index, site_id: new_site.id
 

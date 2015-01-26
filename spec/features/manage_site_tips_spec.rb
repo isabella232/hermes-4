@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature "Manage site tips", type: :feature do
   let!(:login_user) { login }
-  let!(:site) { FactoryGirl.create :site, user: login_user }
+  let!(:site)       { FactoryGirl.create :site, user: login_user }
 
   scenario 'new tip button' do
     visit site_path(site)

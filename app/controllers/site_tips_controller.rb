@@ -1,7 +1,9 @@
 class SiteTipsController < NestedTipsController
 
   load_and_authorize_resource :site
-  load_and_authorize_resource :tip, through: :site, shallow: true, parent: false
+
+  before_filter :load_and_authorize_tips,  only: :index
+  before_filter :load_and_authorize_tip, except: :index
 
   self.nested_object = :@site
 

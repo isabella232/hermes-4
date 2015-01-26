@@ -5,7 +5,7 @@ require 'rails_helper'
 describe TutorialsController do
   login
 
-  let!(:site)     { FactoryGirl.create :site }
+  let!(:site)     { FactoryGirl.create :site, user: login_user }
   let!(:tutorial) { FactoryGirl.create :tutorial, site: site }
   let!(:tip)      { FactoryGirl.create :tip, tippable: tutorial }
 
@@ -19,7 +19,7 @@ describe TutorialsController do
     end
 
     it 'redirects' do
-      new_site = FactoryGirl.create :site
+      new_site = FactoryGirl.create :site, user: login_user
 
       get :index, site_id: new_site.id
 

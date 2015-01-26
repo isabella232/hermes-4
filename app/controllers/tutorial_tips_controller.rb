@@ -1,7 +1,9 @@
 class TutorialTipsController < NestedTipsController
 
   load_resource :tutorial
-  load_and_authorize_resource :tip, through: :tutorial, shallow: true, parent: false
+
+  before_filter :load_and_authorize_tips,  only: :index
+  before_filter :load_and_authorize_tip, except: :index
 
   before_filter :set_site
 

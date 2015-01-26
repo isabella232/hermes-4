@@ -5,7 +5,8 @@ require 'rails_helper'
 describe TipsController do
   login
 
-  let!(:tip) { FactoryGirl.create :tip_with_site }
+  let!(:site) { FactoryGirl.create :site, user: login_user }
+  let!(:tip)  { FactoryGirl.create :tip, tippable: site }
 
   describe '#position' do
     it 'works' do

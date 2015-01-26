@@ -5,7 +5,7 @@ require 'rails_helper'
 describe TutorialTipsController do
   login
 
-  let!(:site)     { FactoryGirl.create :site }
+  let!(:site)     { FactoryGirl.create :site, user: login_user }
   let!(:tutorial) { FactoryGirl.create :tutorial, site: site }
   let!(:tip)      { FactoryGirl.create :tip, tippable: tutorial }
 

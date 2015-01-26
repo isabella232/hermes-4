@@ -5,7 +5,7 @@ require 'rails_helper'
 describe SitesController do
   login
 
-  let!(:site) { FactoryGirl.create :site }
+  let!(:site) { FactoryGirl.create :site, user: login_user }
 
   describe '#index' do
     it 'works' do
