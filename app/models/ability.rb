@@ -4,9 +4,9 @@ class Ability
   def initialize(user)
     user ||= User.new
 
-    can :manage, :all
+    can :manage, Tutorial, site_id: user.site_ids
 
-    can [:manage, :general_broadcast], Site
+    can [:manage, :general_broadcast], Site, user_id: user.id
     can [:manage, :position], Tip
   end
 end
