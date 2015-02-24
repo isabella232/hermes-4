@@ -46,7 +46,6 @@ end
 group :development, :test do
   gem 'rspec-rails', '~> 3.1'
   gem 'guard-rspec', require: false
-  gem 'fuubar'
   gem 'ffaker'
   gem 'email_spec'
   gem "spring-commands-rspec"
