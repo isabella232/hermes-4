@@ -138,8 +138,7 @@
     **/
 
   JQueryChecker.prototype.loadHandler = function() {
-    jQuery = w.jQuery.noConflict(true);
-    this.onLoadedCallback(jQuery);
+    this.onLoadedCallback(w.jQuery.noConflict(true));
   }
 
 
