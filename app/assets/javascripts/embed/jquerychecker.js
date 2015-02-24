@@ -67,6 +67,31 @@
     firstScriptOfPage.parentNode.insertBefore(script,firstScriptOfPage);
   }
 
+  /**
+   *
+   * duplicatejQuery
+   *
+   * Duplicates the given jQuery object and returns a new one.
+   *
+   * @return jQuery
+   *
+   **/
+  JQueryChecker.prototype.duplicatejQuery = function(original) {
+    // Set up the jQuery API interface
+    var duplicate = function(selector, context) {
+      return new duplicate.fn.init(selector, context);
+    };
+
+    // Add all methods
+    original.extend(true, duplicate, original);
+
+    // Set up a custom identifier
+    duplicate.expando = 'jQueryForHermesTheEpicMessengerService';
+
+    // Profit
+    return duplicate;
+  }
+
 
   /**
     *
@@ -89,7 +114,8 @@
           min = parseInt(ver[1])
       ;
       if (maj > 1 || (maj == 1 && min > 8)) {
-        this.onLoadedCallback(w.jQuery);
+        var jQuery = this.duplicatejQuery(w.jQuery)
+        this.onLoadedCallback(jQuery);
       } else {
         this.loadScript(JQUERYURL, this.loadHandler);
       }
