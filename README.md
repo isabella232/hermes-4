@@ -1,5 +1,7 @@
 Hermes, by IFAD
-------
+---------------
+
+[![Build Status](https://travis-ci.org/ifad/hermes.svg?branch=master)](https://travis-ci.org/ifad/hermes)
 
 ![hermes](https://raw.githubusercontent.com/ifad/hermes/master/screenshots/hermes.png)
 
