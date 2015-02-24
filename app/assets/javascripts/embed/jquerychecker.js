@@ -3,7 +3,7 @@
 
   __hermes_embed.JQueryChecker
 
-  The JQueryChecker class. 
+  The JQueryChecker class.
   If there's already jQuery loaded (and version is > than 1.8), we'll use that $, otherwise we'll load jQuery dynamically.
 
   (c) IFAD 2015
@@ -22,7 +22,7 @@
   /**
     *
     * JQueryChecker class
-    * ctor 
+    * ctor
     * @param {callback} Function, the callback to call once the right jQuery is available
     *
     * @return nothing
@@ -41,7 +41,7 @@
     * loadScript
     *
     * load jQuery script and call the handler fn
-    * 
+    *
     * @param {url} String, the url where to retrieve jQuery
     * @param {handler} Function, the handler to associate once the script is loaded
     *
@@ -73,7 +73,7 @@
     * init
     *
     * check if $ is defined and its version and in case load the newer jQuery
-    * 
+    *
     * @return nothing
     *
     **/
@@ -101,7 +101,7 @@
     * loadHandler
     *
     * the method to call when jQuery is ready. It will call the provided callback w/ the right jQuery noconflicted
-    * 
+    *
     * @return nothing
     *
     **/
