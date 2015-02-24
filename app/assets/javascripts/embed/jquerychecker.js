@@ -85,6 +85,11 @@
     // Add all methods
     original.extend(true, duplicate, original);
 
+    // Update the init prototype to use the duplicate fn, so that
+    // jQuery collections will have Hermes' fn and not the window
+    // one.
+    duplicate.fn.init.prototype = duplicate.fn;
+
     // Set up a custom identifier
     duplicate.expando = 'jQueryForHermesTheEpicMessengerService';
 
