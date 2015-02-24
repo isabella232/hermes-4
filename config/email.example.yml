@@ -28,12 +28,6 @@ staging:
 
 # Development
 #
-_localhost_3000: &dev_url_options
-  default_url_options:
-    protocol: http
-    host:     localhost
-    port:     3000
-
 development:
   delivery_method: :smtp
 
@@ -41,9 +35,16 @@ development:
     address: localhost
     port:    25
 
-  <<: *dev_url_options
+  default_url_options:
+    protocol: http
+    host:     localhost
+    port:     3000
 
-# Test - include only url options
-# as delivery_method is :test.
+# Test
+#
 test:
-  <<: *dev_url_options
+  delivery_method: :test
+
+  default_url_options:
+    protocol: http
+    host:     hermes.example.org

@@ -1,6 +1,5 @@
 module Hermes
 
-  config = Rails.env.test? ? 'email.test.yml' : 'email.yml'
   config = Rails.root.join('config', config)
   config = YAML.load_file(config).fetch(Rails.env)
   config.each do |k,v|
