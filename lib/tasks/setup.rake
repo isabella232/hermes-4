@@ -39,7 +39,7 @@ namespace :hermes do
 
     protected
       def configuration_from_example(name)
-        template      = "config/#{name}.yml.example"
+        template      = "config/#{name}.example.yml"
         configuration = "config/#{name}.yml"
 
         unless File.exists?(configuration)
