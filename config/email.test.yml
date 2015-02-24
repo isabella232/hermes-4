@@ -1,0 +1,9 @@
+##
+# Test environment ActionMailer configuration.
+#
+test:
+  delivery_method: :test
+
+  default_url_options:
+    protocol: http
+    host:     hermes.example.org
