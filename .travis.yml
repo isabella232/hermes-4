@@ -8,7 +8,7 @@ addons:
 before_script:
   - cp config/database.travis.yml config/database.yml
   - psql -c "CREATE DATABASE hermes_test" -U postgres
-  - bundle exec rake db:migrate hermes:setup
+  - bundle exec rake hermes:setup db:migrate
 
 script:
   - bundle exec rake
