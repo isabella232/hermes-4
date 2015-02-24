@@ -561,7 +561,6 @@ __hermes_embed.init_popover = function (jQuery) {
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
    * ======================================================================== */
 
-
   +function ($) { "use strict";
 
     // POPOVER PUBLIC CLASS DEFINITION
@@ -660,7 +659,6 @@ __hermes_embed.init_popover = function (jQuery) {
 
     $.fn.popover             = Plugin
     $.fn.popover.Constructor = Popover
-
 
     // POPOVER NO CONFLICT
     // ===================
