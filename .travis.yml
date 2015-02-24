@@ -1,6 +1,7 @@
 rvm:
   - 2.1.5
-  - 2.2.0
+  # - 2.2.0 CURRENTLY BROKEN, see
+  # https://travis-ci.org/ifad/hermes/jobs/52005630
 
 addons:
   postgresql: "9.4"
