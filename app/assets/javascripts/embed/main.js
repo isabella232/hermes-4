@@ -378,7 +378,10 @@
     } else {
       this.mode = ns.mode;
     }
+
     ns.instances.app = this;
+    ns.jQuery = $;
+
     this.initSubscriptions($);
     this.initMode();
   };
